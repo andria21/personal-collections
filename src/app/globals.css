@@ -100,8 +100,19 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+
+
+.light {
+  background-color: white;
+  color: #000;
+}
+
+.dark {
+  background-color: #000;
+  color: #fff;
+}
+
+.theme {
+  transition: 1s all ease;
+
 }

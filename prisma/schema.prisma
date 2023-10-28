@@ -1,0 +1,58 @@
+datasource db {
+  url      = env("DATABASE_URL")
+  provider = "mongodb"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Collection {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  username String
+  item     Item[]
+  users    User[]
+}
+
+model User {
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  lastName      String?
+  email         String     @unique
+  password      String?
+  profilePic    String?
+  backgroundPic String?
+  isAdmin       Boolean    @default(false)
+  collection    Collection? @relation(fields: [collectionId], references: [id])
+  likedItems    String[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime?
+  collectionId  String?   @db.ObjectId
+  isBlocked     Boolean   @default(false)
+}
+
+type Item {
+  id          String?
+  name        String?
+  topic       String?
+  desc        String?
+  tags        String?
+  image       String?
+
+  int1        Int?
+  int2        Int?
+  int3        Int?
+  string1     String?
+  string2     String?
+  string3     String?
+  multiline1  String?
+  multiline2  String?
+  multiline3  String?
+  bool1       Boolean?
+  bool2       Boolean?
+  bool3       Boolean?
+  date1       DateTime?
+  date2       DateTime?
+  date3       DateTime?
+}
