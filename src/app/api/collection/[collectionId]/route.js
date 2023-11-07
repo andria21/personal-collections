@@ -10,13 +10,13 @@ export const GET = async (request, { params }) => {
 
     const { collectionId } = params;
 
-    console.log(collectionId);
+    // console.log(collectionId);
 
     try {
-        const collections = await prisma.collection.findMany({
+        const collection = await prisma.collection.findMany({
             where: { id: collectionId },
         });
-        return new NextResponse(JSON.stringify(collections), { status: 200 });
+        return new NextResponse(JSON.stringify(collection), { status: 200 });
     } catch (error) {
         return new NextResponse(`Database Error: ${error}`, { status: 500 });
     } finally {
@@ -24,39 +24,27 @@ export const GET = async (request, { params }) => {
     }
 };
 
-// export const POST = async (request, { params }) => {
-//     const { collectionName, name, id, image, desc, topic, tags, userEmail } =
-//         await request.json();
+export const POST = async (request, { params }) => {
+    const { name } = await request.json();
 
-//     await connect;
+    const { collectionId } = params;
 
-//     // now user has collection field and we can push this to the user
+    await connect;
 
-//     try {
-//         await prisma.collection.create({
-//             data: {
-//                 name: collectionName,
-//                 username: userEmail,
-//                 item: [
-//                     {
-//                         name,
-//                         id,
-//                         image,
-//                         desc,
-//                         topic,
-//                         tags,
-//                     },
-//                 ],
-//             },
-//         });
-
-//         return new NextResponse("Success!", { status: 200 });
-//     } catch (error) {
-//         console.log(error);
-//         return new NextResponse(error.message, {
-//             status: 500,
-//         });
-//     } finally {
-//         prisma.$disconnect();
-//     }
-// };
+    try {
+        const collection = await prisma.collection.update({
+            where: { id: collectionId },
+            data: {
+                name,
+            },
+        });
+        return new NextResponse("Success!", { status: 200 });
+    } catch (error) {
+        console.log(error);
+        return new NextResponse(error.message, {
+            status: 500,
+        });
+    } finally {
+        prisma.$disconnect();
+    }
+};

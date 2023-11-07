@@ -1,0 +1,16 @@
+{
+  "navigation": {
+    "home": "Home",
+    "search": "Search",
+    "dashboard": "Dashboard",
+    "adminPanel": "Admin Panel",
+    "signOut": "Sign Out",
+    "register": "Register",
+    "login": "Login"
+  },
+  "page": {
+    "home": {
+      "collections": "Collections"
+    }
+  }
+}

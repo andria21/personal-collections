@@ -1,61 +1,64 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  ActionsDiv,
-  CardContainer,
-  Comment,
-  CommentButton,
-  CommentContainer,
-  CommentCount,
-  CommentDiv,
-  CommentInput,
-  CommentUserName,
-  Container,
-  H4,
-  LikeCount,
-  LikesComments,
-  PostImage,
-  UserName,
-} from "./main-menu.module";
+
+import styles from "./main-menu.module.scss";
+
+import useSWR from "swr";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function MainMenu() {
   const [showComments, setShowComments] = useState(false);
+  const [collectionId, setCollectionId] = useState("");
+  const [itemId, setItemId] = useState("");
+
+  const session = useSession();
+  const router = useRouter();
+
+  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+
+  const { data, mutate, error, isLoading } = useSWR("/api/collection", fetcher);
+
+  const handleSubmitComment = async (e, buttonName) => {
+    e.preventDefault();
+
+    const comment = e.target[0].value;
+
+    try {
+      await fetch(`/api/collection/${collectionId}/item`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          buttonName,
+          comment,
+          commentUser: session.data.user.name,
+          id: itemId,
+        }),
+      });
+      e.target[0].value = "";
+      mutate();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <Container>
-      <CardContainer>
-        <UserName>Andria</UserName>
-        <PostImage
-          src="https://images.pexels.com/photos/1624496/pexels-photo-1624496.jpeg?auto=compress&cs=tinysrgb&w=1600"
-          alt="Post"
-          width={800}
-          height={20}
-        />
-        <LikesComments>
-          <LikeCount>63 Likes</LikeCount>
-          <CommentCount>12 Comments</CommentCount>
-        </LikesComments>
-        <ActionsDiv>
-          <H4>Like</H4>
-          <H4 onClick={() => setShowComments(!showComments)}>Comment</H4>
-        </ActionsDiv>
-        {showComments && (
-          <CommentContainer>
-            <CommentDiv>
-              <CommentUserName>Linda</CommentUserName>
-              <Comment>This is a great post!</Comment>
-            </CommentDiv>
-            <CommentDiv>
-              <CommentUserName>Branda</CommentUserName>
-              <Comment>I love it!</Comment>
-            </CommentDiv>
-
-            <CommentInput type="text" placeholder="Add a comment" />
-            <CommentButton>Post</CommentButton>
-          </CommentContainer>
-        )}
-      </CardContainer>
-    </Container>
+    <div className={styles.container}>
+      {!isLoading &&
+        data.map((collection) => (
+          <div key={collection.id}>
+            <p className={styles.collectionP}>{collection.username}</p>
+            <p
+              className={styles.collectionP}
+              onClick={() => router.push(`/dashboard/${collection.id}`)}
+            >
+              Collection: {collection.name}
+            </p>
+          </div>
+        ))}
+    </div>
   );
 }

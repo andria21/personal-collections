@@ -30,7 +30,7 @@ export const H4 = styled.h4`
 export const BlockButton = styled.a`
   display: inline-block;
   padding: 0.6em 1.7em;
-  border: 0.1em solid #191919;
+  border: 0.1em solid #3A3B3C;
   margin: 0 0.3em 0.3em 0;
   border-radius: 0.12em;
   box-sizing: border-box;
@@ -49,16 +49,16 @@ export const BlockButton = styled.a`
 
 export const Td = styled.td`
   padding: 20px;
-  border: 1px solid #191919;
+  border: 1px solid #3A3B3C;
   text-align: center;
 `;
 export const Th = styled.th`
   padding: 20px;
-  border: 1px solid #191919;
+  border: 1px solid #3A3B3C;
 `;
 
 export const Tr = styled.tr`
-  border: 1px solid #191919;
+  border: 1px solid #3A3B3C;
   border-collapse: collapse;
   border-radius: 10px;
 `;

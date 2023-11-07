@@ -13,6 +13,7 @@ model Collection {
   username String
   item     Item[]
   users    User[]
+  createdAt   DateTime   @default(now())
 }
 
 model User {
@@ -30,6 +31,8 @@ model User {
   updatedAt     DateTime?
   collectionId  String?   @db.ObjectId
   isBlocked     Boolean   @default(false)
+  language      String?
+  theme         String?   @default("dark")
 }
 
 type Item {
@@ -39,6 +42,8 @@ type Item {
   desc        String?
   tags        String?
   image       String?
+  comments    Comment[]
+  likes       Like[]
 
   int1        Int?
   int2        Int?
@@ -55,4 +60,16 @@ type Item {
   date1       DateTime?
   date2       DateTime?
   date3       DateTime?
+}
+
+type Comment {
+  commentUser String
+  comment     String
+  createdAt   DateTime   @default(now())
+}
+
+type Like {
+  likeUser  String
+  like      Boolean
+  createdAt   DateTime   @default(now())
 }

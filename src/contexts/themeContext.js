@@ -1,23 +1,35 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-    const [mode, setMode] = useState("dark");
+  const [mode, setMode] = useState(null);
 
-    const toggle = () => {
-        setMode((prev) => (prev === "dark" ? "light" : "dark"));
-    };
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      setMode(savedTheme);
+    } else {
+      setMode("dark");
+      localStorage.setItem("theme", "dark");
+    }
+  }, []);
 
-    return (
-        <ThemeContext.Provider value={{ mode, toggle }}>
-            <div className={`theme ${mode}`}>{children}</div>
-        </ThemeContext.Provider>
-    );
+  const toggle = () => {
+    const newMode = mode === "dark" ? "light" : "dark";
+    setMode(newMode);
+    localStorage.setItem("theme", newMode);
+  };
+
+  return (
+    <ThemeContext.Provider value={{ mode, toggle }}>
+      <div className={`theme ${mode}`}>{children}</div>
+    </ThemeContext.Provider>
+  );
 };
 
 export const useTheme = () => {
-    return useContext(ThemeContext);
+  return useContext(ThemeContext);
 };
