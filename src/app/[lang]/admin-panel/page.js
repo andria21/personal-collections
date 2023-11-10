@@ -19,7 +19,7 @@ import {
 import { isAdmin } from "@/utils/isAdmin";
 import { useState } from "react";
 
-export default function AdminPanel() {
+export default function AdminPanel({ params: { lang } }) {
   const session = useSession();
   const adminEmail = process.env.ADMIN_EMAIL;
   const router = useRouter();
@@ -32,7 +32,7 @@ export default function AdminPanel() {
   const { data, mutate, error, isLoading } = useSWR(`/api/users`, fetcher);
 
   if (!isAdmin(isLoading, data, session)) {
-    router.push("/");
+    router.push(`/${lang}/`);
   }
 
   const handleAdminAccess = async (userId) => {

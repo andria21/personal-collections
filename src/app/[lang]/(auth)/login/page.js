@@ -14,11 +14,11 @@ import {
   RegisterButton,
   ButtonsContainer,
   CenteredSpinnerContainer,
-  Spinner
+  Spinner,
 } from "./page.module";
 import useSWR from "swr";
 
-export default function Login() {
+export default function Login({ params: { lang } }) {
   const session = useSession();
   const router = useRouter();
 
@@ -34,7 +34,7 @@ export default function Login() {
     );
   }
 
-  session.status === "authenticated" && router.push("/dashboard");
+  session.status === "authenticated" && router.push(`/${lang}/dashboard`);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -46,11 +46,12 @@ export default function Login() {
     signIn("credentials", { email, password });
 
     try {
-      !isLoading && data.map(user => {
-        if (user.email === email && user.isBlocked) {
-          alert("This account has been blocked!")
-        }
-      })
+      !isLoading &&
+        data.map((user) => {
+          if (user.email === email && user.isBlocked) {
+            alert("This account has been blocked!");
+          }
+        });
     } catch (error) {
       console.log(error);
     }
@@ -70,7 +71,7 @@ export default function Login() {
         </FormGroup>
         <ButtonsContainer>
           <Button type="submit">Login</Button>
-          <RegisterButton onClick={() => router.push("/register")}>
+          <RegisterButton onClick={() => router.push(`/${lang}/register`)}>
             - Create a new account -
           </RegisterButton>
         </ButtonsContainer>

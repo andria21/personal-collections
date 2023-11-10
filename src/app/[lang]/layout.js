@@ -7,21 +7,21 @@ import styles from "./page.module.scss";
 import { ThemeProvider } from "@/contexts/themeContext";
 
 const inter = Inter({ subsets: ["latin"] });
-const lato = Open_Sans({ subsets: ["latin"], weight: "500" });
+const openSans = Open_Sans({ subsets: ["latin"], weight: "500" });
 
 export const metadata = {
   title: "Collection App",
   description: "Developed by andria",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children, params }) {
   return (
-    <html lang="en">
-      <body className={lato.className}>
+    <html lang={params.lang}>
+      <body className={openSans.className}>
         <AuthProvider>
           <ThemeProvider>
             <div className={styles.container}>
-              <Navbar />
+              <Navbar params={params} />
               {children}
             </div>
           </ThemeProvider>

@@ -1,0 +1,36 @@
+{
+  "navigation": {
+    "home": "Дом",
+    "search": "Поиск",
+    "dashboard": "Панель управления",
+    "adminPanel": "Панель администратора",
+    "signOut": "Выход",
+    "register": "Регистрация",
+    "login": "Войти"
+  },
+  "page": {
+    "home": {
+      "collections": "Коллекции",
+      "collection": "Коллекция"
+    },
+    "dashboard": {
+      "createCollection": "Создать коллекцию",
+      "collectionName": "Название коллекции",
+      "submit": "Отправить",
+      "yourCollections": "Ваши коллекции",
+      "collection": "Коллекция",
+      "user": "Пользователь",
+      "name": "Имя",
+      "id": "ИДЕНТИФИКАТОР",
+      "topic": "Тема",
+      "description": "Описание",
+      "tags": "Теги",
+      "likes": "Лайки",
+      "comments": "Комментарии",
+      "like": "Лайк",
+      "comment": "Комментировать",
+      "addComment": "Добавить комментарий",
+      "post": "Публиковать"
+    }
+  }
+}

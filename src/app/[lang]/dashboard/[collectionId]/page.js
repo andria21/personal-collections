@@ -13,9 +13,23 @@ import {
   UpdateCollectionNameForm,
 } from "@/components/forms/Forms";
 
+import { getDictionary } from "../../../../../getDictionary";
+
 export default function CollectionPage({ params }) {
   const session = useSession();
   const { collectionId } = params;
+
+  const [text, setText] = useState({});
+
+  useEffect(() => {
+    const func = async () => {
+      const lang = await getDictionary(params.lang);
+      console.log(lang.page.dashboard);
+      setText(lang.page.dashboard)
+      
+    };
+    func();
+  }, [params]);
 
   const [itemId, setItemId] = useState("");
 
@@ -34,7 +48,7 @@ export default function CollectionPage({ params }) {
     data.map((col) => {
       col.item.map((a) => {
         const likedObjs = a.likes.filter((like) => like.like === true);
-        console.log(likedObjs);
+        // console.log(likedObjs);
         filteredLikeObjects.push(likedObjs);
       });
     });
@@ -171,26 +185,26 @@ export default function CollectionPage({ params }) {
       {!isLoading &&
         data.map((collection) => (
           <div key={collection.id}>
-            <p className="cardHeading">Collection: {collection.name}</p>
-            <p className="cardHeading">User: {collection.username}</p>
+            <p className="cardHeading">{text.collection}: {collection.name}</p>
+            <p className="cardHeading">{text.user}: {collection.username}</p>
             {collection.item.map((item) => (
               <div className="cardContainer">
                 <span className="deleteItem" onClick={() => handleDeleteItem(item.id)}>X</span>
-                <p className="cardHeading">Name: {item.name}</p>
-                <p className="cardHeading">ID: {item.id}</p>
+                <p className="cardHeading">{text.name}: {item.name}</p>
+                <p className="cardHeading">{text.id}: {item.id}</p>
                 <Image
                   src={item.image}
                   height={20}
                   width={800}
                   className="cardImage"
                 />
-                <h4>Topic: {item.topic}</h4>
-                <h4>Description: {item.desc}</h4>
-                <h4>Tags: {item.tags}</h4>
+                <h4>{text.topic}: {item.topic}</h4>
+                <h4>{text.description}: {item.desc}</h4>
+                <h4>{text.tags}: {item.tags}</h4>
                 <div className="likesCommentsContainer">
-                  <div className="countDiv">{item.likes.length} Likes</div>
+                  <div className="countDiv">{item.likes.length} {text.likes}</div>
                   <div className="countDiv">
-                    {item.comments.length} Comments
+                    {item.comments.length} {text.comments}
                   </div>
                 </div>
                 <div className="actionsDiv">
@@ -207,13 +221,13 @@ export default function CollectionPage({ params }) {
                       }
                     }}
                   >
-                    Like
+                  {text.like}
                   </h4>
                   <h4
                     className="customH4"
                     onClick={() => setShowComments(!showComments)}
                   >
-                    Comment
+                  {text.comment}
                   </h4>
                 </div>
                 <form
@@ -224,7 +238,7 @@ export default function CollectionPage({ params }) {
                     type="text"
                     id="comment"
                     name="comment"
-                    placeholder="Add a comment"
+                    placeholder={text.addComment}
                     className="commentInput"
                   />
                   <button
@@ -234,7 +248,7 @@ export default function CollectionPage({ params }) {
                       setItemId(item.id);
                     }}
                   >
-                    Post
+                  {text.post}
                   </button>
                 </form>
                 <div>

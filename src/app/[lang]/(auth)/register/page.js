@@ -16,13 +16,13 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { CenteredSpinnerContainer, Spinner } from "../login/page.module";
 
-export default function Register() {
+export default function Register({ params: { lang } }) {
     const [err, setErr] = useState("");
 
     const router = useRouter();
     const session = useSession();
 
-    session.status === "authenticated" && router.push("/dashboard");
+    session.status === "authenticated" && router.push(`/${lang}/dashboard`);
 
     if (session.status === "loading") {
         return (
@@ -51,7 +51,7 @@ export default function Register() {
                 }),
             });
             res.status === 200
-                ? router.push("/login?success=Account has been created")
+                ? router.push(`/${lang}/login?success=Account has been created`)
                 : setErr(
                       "Something went wrong. Make sure this account doesn't already exist!"
                   );
@@ -85,7 +85,7 @@ export default function Register() {
                 </FormGroup>
                 <ButtonsContainer>
                     <Button>Submit</Button>
-                    <LoginButton onClick={() => router.push("/login")}>
+                    <LoginButton onClick={() => router.push(`/${lang}/login`)}>
                         - Already have an account -
                     </LoginButton>
                 </ButtonsContainer>

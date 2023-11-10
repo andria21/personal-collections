@@ -1,0 +1,36 @@
+{
+  "navigation": {
+    "home": "Home",
+    "search": "Search",
+    "dashboard": "Dashboard",
+    "adminPanel": "Admin Panel",
+    "signOut": "SIGN OUT",
+    "register": "Register",
+    "login": "Login"
+  },
+  "page": {
+    "home": {
+      "collections": "Collections",
+      "collection": "Collection"
+    },
+    "dashboard": {
+      "createCollection": "Create Collection",
+      "collectionName": "Collection Name",
+      "submit": "Submit",
+      "yourCollections": "Your Collections",
+      "collection": "Collection",
+      "user": "User",
+      "name": "Name",
+      "id": "ID",
+      "topic": "Topic",
+      "description": "Description",
+      "tags": "Tags",
+      "likes": "Likes",
+      "comments": "Comments",
+      "like": "Like",
+      "comment": "Comment",
+      "addComment": "Add a comment",
+      "post": "Post"
+    }
+  }
+}

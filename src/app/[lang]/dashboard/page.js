@@ -21,7 +21,22 @@ import {
 
 import useSWR from "swr";
 
-export default function Dashboard() {
+import { useEffect, useState } from "react";
+import { getDictionary } from "../../../../getDictionary";
+
+export default function Dashboard({ params }) {
+  const [text, setText] = useState({});
+
+  useEffect(() => {
+    const func = async () => {
+      const lang = await getDictionary(params.lang);
+      console.log(lang.page.dashboard);
+      setText(lang.page.dashboard)
+      
+    };
+    func();
+  }, [params]);
+
   const session = useSession();
   const router = useRouter();
 
@@ -29,7 +44,7 @@ export default function Dashboard() {
 
   const { data, mutate, error, isLoading } = useSWR(`/api/collection`, fetcher);
 
-  if (session.data?.user === "unauthenticated") router.push("/login");
+  if (session.data?.user === "unauthenticated") router.push(`/${params.lang}/login`);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -73,9 +88,9 @@ export default function Dashboard() {
   return (
     <DashboardContainer>
       <Form onSubmit={handleSubmit}>
-        <Title>Create Collection</Title>
+        <Title>{text.createCollection}</Title>
         <FormGroup>
-          <Label>Collection Name:</Label>
+          <Label>{text.collectionName}:</Label>
           <Input
             type="text"
             id="collectionName"
@@ -83,17 +98,19 @@ export default function Dashboard() {
             required
           />
         </FormGroup>
-        <Button type="submit">Submit</Button>
+        <Button type="submit">{text.submit}</Button>
       </Form>
       <CollectionDiv>
-        <CollectionHeading>Your Collections</CollectionHeading>
+        <CollectionHeading>{text.yourCollections}</CollectionHeading>
         {!isLoading &&
           data.map((collection) => {
             if (session.data?.user.email === collection.username) {
               return (
                 <HeadingDiv>
                   <CollectionName
-                    onClick={() => router.push(`/dashboard/${collection.id}`)}
+                    onClick={() =>
+                      router.push(`/${params.lang}/dashboard/${collection.id}`)
+                    }
                   >
                     {collection.name}
                   </CollectionName>
