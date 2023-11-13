@@ -16,5 +16,5 @@ export default function Home({ params }) {
     func();
   }, [params]);
   
-  return <MainMenu collectionName={text.collection} params={params} />;
+  return <MainMenu collectionName={text.collection} colDescription={text.description} colTopic={text.topic} params={params} text={text} />;
 }

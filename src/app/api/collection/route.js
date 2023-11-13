@@ -6,7 +6,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const POST = async (request) => {
-  const { collectionName, userEmail } = await request.json();
+  const { collectionName, userEmail, collectionDescription, collectionTopic, collectionImage } = await request.json();
 
   await connect;
 
@@ -15,6 +15,9 @@ export const POST = async (request) => {
       data: {
         name: collectionName,
         username: userEmail,
+        description: collectionDescription,
+        topic: collectionTopic,
+        image: collectionImage
       },
     });
 
@@ -30,6 +33,8 @@ export const POST = async (request) => {
 };
 
 export const GET = async (request) => {
+  const { searchParams } = new URL(request.url);
+  const query = searchParams.get('query')
   await connect;
   try {
     const collections = await prisma.collection.findMany();

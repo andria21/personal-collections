@@ -1,0 +1,93 @@
+.spinnerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.spinner {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+
+.spinner::after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+
+  @keyframes lds-dual-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+.tableContainer {
+  width: 100%;
+  max-width: 640px;
+}
+.infoContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #242526;
+  padding: 5px;
+}
+
+.heading4 {
+  cursor: pointer;
+}
+
+.blockButton {
+  display: inline-block;
+  padding: 0.6em 1.7em;
+  border: 0.1em solid #3A3B3C;
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 0.12em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  color: #ffffff;
+  text-align: center;
+  transition: all 0.2s;
+  background-color: 18191A;
+  cursor: pointer;
+  &:hover {
+    color: #000000;
+    background-color: #ffffff;
+  }
+}
+
+.td {
+  padding: 20px;
+  border: 1px solid #3A3B3C;
+  text-align: center;  
+}
+.th {
+  padding: 20px;
+  border: 1px solid #3A3B3C;
+}
+.tr {
+  border: 1px solid #3A3B3C;
+  border-collapse: collapse;
+  border-radius: 10px;
+}
+.mainDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  padding-bottom: 150px;
+}

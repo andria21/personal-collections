@@ -4,24 +4,14 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import useSWR from "swr";
-import { CenteredSpinnerContainer, Spinner } from "../dashboard/page.module";
-import {
-  BlockButton,
-  H4,
-  InfoContainer,
-  MainDiv,
-  TableContainer,
-  TableDiv,
-  Td,
-  Th,
-  Tr,
-} from "./page.module";
+
+import styles from "./page.module.scss"
+
 import { isAdmin } from "@/utils/isAdmin";
 import { useState } from "react";
 
 export default function AdminPanel({ params: { lang } }) {
   const session = useSession();
-  const adminEmail = process.env.ADMIN_EMAIL;
   const router = useRouter();
 
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -98,42 +88,40 @@ export default function AdminPanel({ params: { lang } }) {
     setSelectAll(!selectAll);
   };
 
-  console.log(selectedUsers);
-
   return (
-    <MainDiv>
-      <TableContainer>
-        <TableDiv>
-          <BlockButton onClick={() => handleAction("block")}>Block</BlockButton>
-          <BlockButton onClick={() => handleAction("unblock")}>
+    <div className={styles.mainDiv}>
+      <div className={styles.tableContainer}>
+        <div className={styles.tableDiv}>
+          <a className={styles.blockButton} onClick={() => handleAction("block")}>Block</a>
+          <a className={styles.blockButton} onClick={() => handleAction("unblock")}>
             Unblock
-          </BlockButton>
-          <BlockButton onClick={() => handleAction("delete")}>
+          </a>
+          <a className={styles.blockButton} onClick={() => handleAction("delete")}>
             Delete
-          </BlockButton>
-          <BlockButton onClick={() => handleAction("add-admin")}>
+          </a>
+          <a className={styles.blockButton} onClick={() => handleAction("add-admin")}>
             Add Admin
-          </BlockButton>
-          <BlockButton onClick={() => handleAction("remove-admin")}>
+          </a>
+          <a className={styles.blockButton} onClick={() => handleAction("remove-admin")}>
             Remove Admin
-          </BlockButton>
+          </a>
 
-          <TableContainer>
+          <div>
             <thead>
-              <Tr>
-                <Th>
+              <tr className={styles.tr}>
+                <th className={styles.th}>
                   <input
                     type="checkbox"
                     checked={selectAll}
                     onChange={handleSelectAll}
                   />
-                </Th>
-                <Th>ID</Th>
-                <Th>Name</Th>
-                <Th>e-Mail</Th>
-                <Th>Status</Th>
-                <Th>Admin Status</Th>
-              </Tr>
+                </th>
+                <th className={styles.th}>ID</th>
+                <th className={styles.th}>Name</th>
+                <th className={styles.th}>e-Mail</th>
+                <th className={styles.th}>Status</th>
+                <th className={styles.th}>Admin Status</th>
+              </tr>
             </thead>
             <tbody>
               {!isLoading &&
@@ -149,8 +137,8 @@ export default function AdminPanel({ params: { lang } }) {
                     console.log(error);
                   }
                   return (
-                    <Tr key={user.id}>
-                      <Td>
+                    <tr className={styles.tr} key={user.id}>
+                      <td className={styles.td}>
                         <input
                           type="checkbox"
                           checked={selectedUsers.some(
@@ -158,19 +146,19 @@ export default function AdminPanel({ params: { lang } }) {
                           )}
                           onChange={() => toggleCheckbox(user.id, user.email)}
                         />
-                      </Td>
-                      <Td>{index + 1}</Td>
-                      <Td>{user.name}</Td>
-                      <Td>{user.email}</Td>
-                      <Td>{user.isBlocked ? "Blocked" : "Active"}</Td>
-                      <Td>{user.isAdmin ? "True" : "False"}</Td>
-                    </Tr>
+                      </td>
+                      <td className={styles.td}>{index + 1}</td>
+                      <td className={styles.td}>{user.name}</td>
+                      <td className={styles.td}>{user.email}</td>
+                      <td className={styles.td}>{user.isBlocked ? "Blocked" : "Active"}</td>
+                      <td className={styles.td}>{user.isAdmin ? "True" : "False"}</td>
+                    </tr>
                   );
                 })}
             </tbody>
-          </TableContainer>
-        </TableDiv>
-      </TableContainer>
-    </MainDiv>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

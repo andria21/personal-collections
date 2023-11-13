@@ -11,11 +11,18 @@
   "page": {
     "home": {
       "collections": "Collections",
-      "collection": "Collection"
+      "collection": "Collection",
+      "topic": "Topic",
+      "description": "Description",
+      "user": "User",
+      "item": "Item"
     },
     "dashboard": {
       "createCollection": "Create Collection",
       "collectionName": "Collection Name",
+      "collectionDescription": "Collection Description",
+      "collectionTopic": "Collection Topic",
+      "collectionImage": "Collection Image (optional)",
       "submit": "Submit",
       "yourCollections": "Your Collections",
       "collection": "Collection",
@@ -30,7 +37,8 @@
       "like": "Like",
       "comment": "Comment",
       "addComment": "Add a comment",
-      "post": "Post"
+      "post": "Post",
+      "item": "Item"
     }
   }
 }

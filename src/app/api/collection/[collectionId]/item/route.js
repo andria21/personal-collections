@@ -35,14 +35,7 @@ export const POST = async (request, { params }) => {
               desc,
               topic,
               tags,
-              comments: {
-                commentUser,
-                comment,
-              },
-              likes: {
-                likeUser: commentUser,
-                like: false,
-              },
+
             },
           },
         },
@@ -175,3 +168,14 @@ export const DELETE = async (request, { params }) => {
 //         prisma.$disconnect();
 //     }
 // };
+
+/**
+      comments: {
+                commentUser: "",
+                comment: "",
+              },
+              likes: {
+                likeUser: "",
+                like: false,
+              },
+ */

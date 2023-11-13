@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  Button,
-  Container,
-  FlexContainer,
-  LinksContainer,
-  Logo,
-  NavLink,
-  SignOutButton,
-} from "./navbar.module";
+import styles from "./navbar.module.scss";
 
 import { signOut, useSession } from "next-auth/react";
 
@@ -18,6 +10,8 @@ import { isAdmin } from "@/utils/isAdmin";
 import { useEffect, useState } from "react";
 import { getDictionary } from "../../../getDictionary";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Search from "../search/Search";
 
 export default function Navbar({ params }) {
   const session = useSession();
@@ -34,13 +28,13 @@ export default function Navbar({ params }) {
     func();
     const savedLanguage = localStorage.getItem("language");
 
-  if (savedLanguage) {
-    setLanguage(savedLanguage);
-    router.push(`/${savedLanguage}`);
-  } else {
-    setLanguage("en");
-    localStorage.setItem("language", "en");
-  }
+    if (savedLanguage) {
+      setLanguage(savedLanguage);
+      router.push(`/${savedLanguage}`);
+    } else {
+      setLanguage("en");
+      localStorage.setItem("language", "en");
+    }
   }, [params, router]);
 
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
@@ -53,46 +47,68 @@ export default function Navbar({ params }) {
   };
 
   return (
-    <Container>
-      <FlexContainer>
-        <Logo href={`/${params.lang}/`}>CollectionApp</Logo>
-        <LinksContainer>
+    <div className={styles.container}>
+      <div className={styles.flexContainer}>
+        <Link className={styles.logo} href={`/${params.lang}/`}>
+          CollectionApp
+        </Link>
+        <div className={styles.linksContainer}>
           <DarkModeToggle />
           <label htmlFor="gsearch">{text.search}:</label>
-          <input type="search" id="search" name="search" />
-          <NavLink href={`/${params.lang}/`}>{text.home}</NavLink>
-          <NavLink href={`/${params.lang}/dashboard`}>{text.dashboard}</NavLink>
+          <Search />
+          <Link className={styles.navLink} href={`/${params.lang}/`}>
+            {text.home}
+          </Link>
+          {session.status === "authenticated" && (
+            <Link className={styles.navLink} href={`/${params.lang}/dashboard`}>
+              {text.dashboard}
+            </Link>
+          )}
           {session.status === "unauthenticated" && (
-            <NavLink href={`/${params.lang}/login`}>{text.login}</NavLink>
+            <Link className={styles.navLink} href={`/${params.lang}/login`}>
+              {text.login}
+            </Link>
           )}
 
           {session.status === "unauthenticated" && (
-            <NavLink href={`/${params.lang}/register`}>{text.register}</NavLink>
+            <Link className={styles.navLink} href={`/${params.lang}/register`}>
+              {text.register}
+            </Link>
           )}
 
           {session.status === "authenticated" &&
             isAdmin(isLoading, data, session) && (
-              <NavLink href={`/${params.lang}/admin-panel`}>
+              <Link
+                className={styles.navLink}
+                href={`/${params.lang}/admin-panel`}
+              >
                 {text.adminPanel}
-              </NavLink>
+              </Link>
             )}
-          {session.status === "authenticated" && (
-            <SignOutButton onClick={signOut}>{text.signOut}</SignOutButton>
-          )}
-          <NavLink
+          <Link
+            className={styles.navLink}
             href={`/${language === "en" ? "" : "en"}/`}
             onClick={() => handleLanguageChange("en")}
           >
             🏴󠁧󠁢󠁥󠁮󠁧🇺🇸
-          </NavLink>
-          <NavLink
+          </Link>
+          <Link
+            className={styles.navLink}
             href={`/${language === "ru" ? "" : "ru"}/`}
             onClick={() => handleLanguageChange("ru")}
           >
             🏴🇷🇺
-          </NavLink>
-        </LinksContainer>
-      </FlexContainer>
-    </Container>
+          </Link>
+          {session.status === "authenticated" && (
+            <button
+              className={`${styles.navLink} ${styles.signOutButton}`}
+              onClick={signOut}
+            >
+              {text.signOut}
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }

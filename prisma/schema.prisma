@@ -8,11 +8,14 @@ generator client {
 }
 
 model Collection {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
-  username String
-  item     Item[]
-  users    User[]
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  topic       String
+  image       String?
+  username    String
+  item        Item[]
+  users       User[]
   createdAt   DateTime   @default(now())
 }
 
@@ -69,7 +72,7 @@ type Comment {
 }
 
 type Like {
-  likeUser  String
-  like      Boolean
+  likeUser    String
+  like        Boolean
   createdAt   DateTime   @default(now())
 }

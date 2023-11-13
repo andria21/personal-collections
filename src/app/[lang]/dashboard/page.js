@@ -2,22 +2,8 @@
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import {
-  Button,
-  CenteredSpinnerContainer,
-  CollectionDiv,
-  CollectionHeading,
-  CollectionName,
-  CustomSpan,
-  DashboardContainer,
-  Form,
-  FormGroup,
-  HeadingDiv,
-  Input,
-  Label,
-  Spinner,
-  Title,
-} from "./page.module";
+
+import styles from "./page.module.scss";
 
 import useSWR from "swr";
 
@@ -30,9 +16,7 @@ export default function Dashboard({ params }) {
   useEffect(() => {
     const func = async () => {
       const lang = await getDictionary(params.lang);
-      console.log(lang.page.dashboard);
-      setText(lang.page.dashboard)
-      
+      setText(lang.page.dashboard);
     };
     func();
   }, [params]);
@@ -44,12 +28,17 @@ export default function Dashboard({ params }) {
 
   const { data, mutate, error, isLoading } = useSWR(`/api/collection`, fetcher);
 
-  if (session.data?.user === "unauthenticated") router.push(`/${params.lang}/login`);
+  if (session.data?.user === "unauthenticated")
+    router.push(`/${params.lang}/login`);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const collectionName = e.target[0].value;
+    const collectionDescription = e.target[1].value;
+    const collectionTopic = e.target[2].value;
+    const collectionImage = e.target[3].value;
+
     try {
       await fetch("/api/collection", {
         method: "POST",
@@ -59,6 +48,9 @@ export default function Dashboard({ params }) {
         body: JSON.stringify({
           collectionName,
           userEmail: session.data.user.email,
+          collectionDescription,
+          collectionTopic,
+          collectionImage,
         }),
       });
       e.target[0].value = "";
@@ -86,44 +78,78 @@ export default function Dashboard({ params }) {
   };
 
   return (
-    <DashboardContainer>
-      <Form onSubmit={handleSubmit}>
-        <Title>{text.createCollection}</Title>
-        <FormGroup>
-          <Label>{text.collectionName}:</Label>
-          <Input
+    <div className={styles.dashboardContainer}>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <h2 className={styles.title}>{text.createCollection}</h2>
+        <div className={styles.formGroup}>
+          <label className={styles.label}>{text.collectionName}:</label>
+          <input
+            className={styles.input}
             type="text"
             id="collectionName"
             name="collectionName"
             required
           />
-        </FormGroup>
-        <Button type="submit">{text.submit}</Button>
-      </Form>
-      <CollectionDiv>
-        <CollectionHeading>{text.yourCollections}</CollectionHeading>
+        </div>
+        <div className={styles.formGroup}>
+          <label className={styles.label}>{text.collectionDescription}:</label>
+          <input
+            className={styles.input}
+            type="text"
+            id="collectionDescription"
+            name="collectionDescription"
+            required
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label className={styles.label}>{text.collectionTopic}:</label>
+          <input
+            className={styles.input}
+            type="text"
+            id="collectionTopic"
+            name="collectionTopic"
+            required
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label className={styles.label}>{text.collectionImage}:</label>
+          <input
+            className={styles.input}
+            type="text"
+            id="collectionImage"
+            name="collectionImage"
+          />
+        </div>
+        <button className={styles.button} type="submit">
+          {text.submit}
+        </button>
+      </form>
+      <div className={styles.collectionDiv}>
+        <h1 className={styles.collectionHeading}>{text.yourCollections}</h1>
         {!isLoading &&
           data.map((collection) => {
             if (session.data?.user.email === collection.username) {
               return (
-                <HeadingDiv>
-                  <CollectionName
+                <div className={styles.headingDiv} key={collection.id}>
+                  <h3
+                    className={styles.collectionName}
                     onClick={() =>
                       router.push(`/${params.lang}/dashboard/${collection.id}`)
                     }
                   >
                     {collection.name}
-                  </CollectionName>
-                  <CustomSpan
+                  </h3>
+                  <span
+                    className={styles.span}
                     onClick={() => handleDeleteCollection(collection.id)}
                   >
                     X
-                  </CustomSpan>
-                </HeadingDiv>
+                  </span>
+                </div>
               );
             }
           })}
-      </CollectionDiv>
-    </DashboardContainer>
+      </div>
+    </div>
   );
 }

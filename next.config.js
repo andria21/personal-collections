@@ -8,9 +8,6 @@ const nextConfig = {
       },
     ],
   },
-  compiler: {
-    styledComponents: true,
-  },
   env: {
     ADMIN_EMAIL: process.env.ADMIN_EMAIL,
   },

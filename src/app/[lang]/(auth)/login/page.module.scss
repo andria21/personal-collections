@@ -1,14 +1,11 @@
-import styled from "styled-components";
-
-export const RegisterContainer = styled.div`
+.loginContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   background: linear-gradient(black);
   flex-direction: column;
-`;
-export const RegisterForm = styled.form`
+}
+.loginForm {
   background-color: #000000;
   padding: 30px;
   width: 500px;
@@ -18,29 +15,25 @@ export const RegisterForm = styled.form`
   background: #191919;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 265px;
-`;
-export const FormGroup = styled.div`
+  margin-top: 50px;
+}
+.formGroup {
   margin-bottom: 15px;
-`;
-export const Label = styled.label`
+}
+.label {
   display: block;
   font-weight: bold;
-`;
-
-export const Input = styled.input`
+}
+.input {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
-  /* border-radius: 5px; */
-`;
-
-export const Title = styled.h2`
+}
+.title {
   text-align: center;
   margin-bottom: 20px;
-`;
-
-export const Button = styled.button`
+}
+.button {
   font-family: lato, sans-serif;
   font-weight: bold;
   font-size: 1em;
@@ -52,15 +45,14 @@ export const Button = styled.button`
   padding: 10px 40px;
   position: relative;
   border: 2px solid #ffffff;
-  width: 40%;
+  width: 200px;
   cursor: pointer;
   &:hover {
     color: #000000;
     background-color: #ffffff;
   }
-`;
-
-export const LoginButton = styled.a`
+}
+.registerButton {
   display: inline-block;
   padding: 0.6em;
   border: none;
@@ -73,17 +65,51 @@ export const LoginButton = styled.a`
   color: #fff;
   text-align: center;
   transition: all 0.2s;
-  width: 49%;
+  width: 200px;
   background-color: #191919;
   cursor: pointer;
   &:hover {
     color: #113946;
   }
-`;
+}
 
-export const ButtonsContainer = styled.div`
+.buttonsContainer {
   display: flex;
   width: 100%;
-  justify-content: space-between;
   gap: 10px;
-`;
+  justify-content: space-between;
+}
+
+.spinnerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.spinner {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+
+.spinner::after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+
+  @keyframes lds-dual-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

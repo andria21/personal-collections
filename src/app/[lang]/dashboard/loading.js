@@ -1,9 +1,9 @@
-import { CenteredSpinnerContainer, Spinner } from "./page.module";
+import styles from "./page.module.scss";
 
 export default function loading() {
   return (
-    <CenteredSpinnerContainer>
-      <Spinner />
-    </CenteredSpinnerContainer>
+    <div className={styles.spinnerContainer}>
+      <div className={styles.spinner} />
+    </div>
   );
 }

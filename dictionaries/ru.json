@@ -11,11 +11,18 @@
   "page": {
     "home": {
       "collections": "Коллекции",
-      "collection": "Коллекция"
+      "collection": "Коллекция",
+      "topic": "Тема",
+      "description": "Описание",
+      "user": "Пользователь",
+      "item": "Вещь"
     },
     "dashboard": {
       "createCollection": "Создать коллекцию",
       "collectionName": "Название коллекции",
+      "collectionDescription": "Описание Коллекции",
+      "collectionTopic": "Тема Коллекции",
+      "collectionImage": "Изображение коллекции (необязательно)",
       "submit": "Отправить",
       "yourCollections": "Ваши коллекции",
       "collection": "Коллекция",
@@ -30,7 +37,8 @@
       "like": "Лайк",
       "comment": "Комментировать",
       "addComment": "Добавить комментарий",
-      "post": "Публиковать"
+      "post": "Публиковать",
+      "item": "Вещь"
     }
   }
 }

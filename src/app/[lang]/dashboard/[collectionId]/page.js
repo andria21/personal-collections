@@ -20,11 +20,9 @@ export default function CollectionPage({ params }) {
   const { collectionId } = params;
 
   const [text, setText] = useState({});
-
   useEffect(() => {
     const func = async () => {
       const lang = await getDictionary(params.lang);
-      console.log(lang.page.dashboard);
       setText(lang.page.dashboard)
       
     };
@@ -184,12 +182,12 @@ export default function CollectionPage({ params }) {
     <div className="items-container">
       {!isLoading &&
         data.map((collection) => (
-          <div key={collection.id}>
+          <div className="items-div" key={collection.id}>
             <p className="cardHeading">{text.collection}: {collection.name}</p>
             <p className="cardHeading">{text.user}: {collection.username}</p>
             {collection.item.map((item) => (
-              <div className="cardContainer">
-                <span className="deleteItem" onClick={() => handleDeleteItem(item.id)}>X</span>
+              <div className="cardContainer" key={item.id}>
+                <span className="deleteItem" onClick={() => handleDeleteItem(item.id)}>Delete</span>
                 <p className="cardHeading">{text.name}: {item.name}</p>
                 <p className="cardHeading">{text.id}: {item.id}</p>
                 <Image
@@ -197,6 +195,7 @@ export default function CollectionPage({ params }) {
                   height={20}
                   width={800}
                   className="cardImage"
+                  alt="Item Image"
                 />
                 <h4>{text.topic}: {item.topic}</h4>
                 <h4>{text.description}: {item.desc}</h4>
@@ -252,8 +251,8 @@ export default function CollectionPage({ params }) {
                   </button>
                 </form>
                 <div>
-                  {item.comments.map(({ commentUser, comment }) => (
-                    <div className="commentsDiv">
+                  {item.comments.map(({ commentUser, comment }, index) => (
+                    <div className="commentsDiv" key={index}>
                       {comment && (
                         <div className="commentsContainer">
                           <h5>{commentUser}</h5>
@@ -267,7 +266,23 @@ export default function CollectionPage({ params }) {
             ))}
           </div>
         ))}
-      {isOwner && (
+        {isOwner && (
+          <div className="items-flex">
+            <UpdateCollectionNameForm
+              handleUpdateCollectionName={handleUpdateCollectionName}
+            />
+            <UpdateCollectionItemsForm handleSubmit={handleSubmit} />
+            <AddItemsToCollectionForm handleSubmit={handleSubmit} />
+          </div>
+        )}
+    </div>
+  );
+}
+
+
+/**
+ 
+ {isOwner && (
         <div className="items-flex">
           <UpdateCollectionNameForm
             handleUpdateCollectionName={handleUpdateCollectionName}
@@ -276,35 +291,4 @@ export default function CollectionPage({ params }) {
           <AddItemsToCollectionForm handleSubmit={handleSubmit} />
         </div>
       )}
-    </div>
-  );
-}
-
-// NEED TO CREATE SEPARATE FORMS TO CHANGE COLLECTION NAME, ITEMS ETC...
-
-/*
-                    {!isLoading &&
-                data.map((collection) => (
-                    <div key={collection.id}>
-                        <h1>{collection.name}</h1>
-                        {collection.item.map((item) => (
-                            <div>
-                                <h6>ID: {item.id}</h6>
-                                <h6>Name: {item.name}</h6>
-                                <h6>Image: {item.image}</h6>
-                                <h6>Topic: {item.topic}</h6>
-                                <h6>Description: {item.desc}</h6>
-                                <h6>Tags: {item.tags}</h6>
-                                {item.comments.map(
-                                    ({ commentUser, comment }) => (
-                                        <div>
-                                            <h6>{commentUser}</h6>
-                                            <h6>Comment: {comment}</h6>
-                                        </div>
-                                    )
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                ))}
-*/
+ */
