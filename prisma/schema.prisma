@@ -13,6 +13,7 @@ model Collection {
   description String
   topic       String
   image       String?
+  markdown    String?
   username    String
   item        Item[]
   users       User[]
@@ -48,21 +49,41 @@ type Item {
   comments    Comment[]
   likes       Like[]
 
-  int1        Int?
-  int2        Int?
-  int3        Int?
-  string1     String?
-  string2     String?
-  string3     String?
-  multiline1  String?
-  multiline2  String?
-  multiline3  String?
-  bool1       Boolean?
-  bool2       Boolean?
-  bool3       Boolean?
-  date1       DateTime?
-  date2       DateTime?
-  date3       DateTime?
+
+  int1name           String?
+  int1value          String?
+  int2name           String?
+  int2value          String?
+  int3name           String?
+  int3value          String?
+
+  string1name        String?
+  string1value       String?
+  string2name        String?
+  string2value       String?
+  string3name        String?
+  string3value       String?
+
+  multiline1name     String?
+  multiline1value    String?
+  multiline2name     String?
+  multiline2value    String?
+  multiline3name     String?
+  multiline3value    String?
+
+  boolean1name          String?
+  boolean1value         String?
+  boolean2name          String?
+  boolean2value         String?
+  boolean3name          String?
+  boolean3value         String?
+  
+  date1name          String?
+  date1value         String?
+  date2name          String?
+  date2value         String?
+  date3name          String?
+  date3value         String?
 }
 
 type Comment {

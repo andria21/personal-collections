@@ -12,6 +12,8 @@ import { getDictionary } from "../../../getDictionary";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Search from "../search/Search";
+import { useUsers } from "@/contexts/usersContext";
+import Tags from "../tags/Tags";
 
 export default function Navbar({ params }) {
   const session = useSession();
@@ -30,15 +32,14 @@ export default function Navbar({ params }) {
 
     if (savedLanguage) {
       setLanguage(savedLanguage);
-      router.push(`/${savedLanguage}`);
+      // router.push(`/${savedLanguage}`);
     } else {
       setLanguage("en");
       localStorage.setItem("language", "en");
     }
   }, [params, router]);
 
-  const fetcher = (...args) => fetch(...args).then((res) => res.json());
-  const { data, mutate, error, isLoading } = useSWR(`/api/users`, fetcher);
+  const { users, isLoading } = useUsers();
 
   const handleLanguageChange = (newLanguage) => {
     setLanguage(newLanguage);
@@ -54,7 +55,7 @@ export default function Navbar({ params }) {
         </Link>
         <div className={styles.linksContainer}>
           <DarkModeToggle />
-          <label htmlFor="gsearch">{text.search}:</label>
+          <label className={styles.navLink} htmlFor="gsearch">{text.search}:</label>
           <Search />
           <Link className={styles.navLink} href={`/${params.lang}/`}>
             {text.home}
@@ -77,7 +78,7 @@ export default function Navbar({ params }) {
           )}
 
           {session.status === "authenticated" &&
-            isAdmin(isLoading, data, session) && (
+            isAdmin(isLoading, users, session) && (
               <Link
                 className={styles.navLink}
                 href={`/${params.lang}/admin-panel`}
@@ -99,15 +100,16 @@ export default function Navbar({ params }) {
           >
             🏴🇷🇺
           </Link>
-          {session.status === "authenticated" && (
-            <button
-              className={`${styles.navLink} ${styles.signOutButton}`}
-              onClick={signOut}
-            >
-              {text.signOut}
-            </button>
-          )}
+          
         </div>
+        {session.status === "authenticated" && (
+          <button
+            className={`${styles.navLink} ${styles.signOutButton}`}
+            onClick={signOut}
+          >
+            {text.signOut}
+          </button>
+        )}
       </div>
     </div>
   );

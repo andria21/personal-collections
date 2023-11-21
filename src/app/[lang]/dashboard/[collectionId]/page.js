@@ -9,22 +9,31 @@ import "./page.styles.scss";
 import Image from "next/image";
 import {
   AddItemsToCollectionForm,
+  AddTypesToItem,
   UpdateCollectionItemsForm,
   UpdateCollectionNameForm,
 } from "@/components/forms/Forms";
 
 import { getDictionary } from "../../../../../getDictionary";
+import AuthNotification from "@/components/auth-notification/AuthNotification";
+import { isAdmin } from "@/utils/isAdmin";
 
 export default function CollectionPage({ params }) {
   const session = useSession();
   const { collectionId } = params;
+  const loggedUserName = session.data?.user.name;
+  const loggedUserEmail = session.data?.user.email;
+  const isAuthenticated = session.status === "authenticated" ? true : false;
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showComments, setShowComments] = useState(null);
+  const [showAuthNotification, setShowAuthNotification] = useState(false);
 
   const [text, setText] = useState({});
   useEffect(() => {
     const func = async () => {
       const lang = await getDictionary(params.lang);
-      setText(lang.page.dashboard)
-      
+      setText(lang.page.dashboard);
     };
     func();
   }, [params]);
@@ -38,8 +47,6 @@ export default function CollectionPage({ params }) {
     fetcher
   );
 
-  useEffect(() => {}, []);
-
   const filteredLikeObjects = [];
 
   !isLoading &&
@@ -52,18 +59,19 @@ export default function CollectionPage({ params }) {
     });
 
   const isOwner =
-    !isLoading && data.some((u) => u.username === session.data?.user.email);
+    (!isLoading && data.some((u) => u.username === session.data?.user.email)) ||
+    isAdmin(session);
 
   const handleSubmit = async (e, buttonName) => {
     e.preventDefault();
 
+    const id = e.target[0].value;
     const name = e.target[1].value;
-    const id = e.target[2].value;
-    const image = e.target[3].value;
-    const desc = e.target[4].value;
-    const topic = e.target[5].value;
-    const tags = e.target[6].value;
-    const comment = e.target[7].value;
+    const image = e.target[2].value;
+    const desc = e.target[3].value;
+    const topic = e.target[4].value;
+    const tags = e.target[5].value;
+    const comment = e.target[6].value;
 
     try {
       await fetch(`/api/collection/${collectionId}/item`, {
@@ -83,12 +91,55 @@ export default function CollectionPage({ params }) {
           commentUser: session.data.user.name,
         }),
       });
+      e.target[0].value = "";
       e.target[1].value = "";
       e.target[2].value = "";
       e.target[3].value = "";
       e.target[4].value = "";
       e.target[5].value = "";
-      e.target[6].value = "";
+      mutate();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSubmitTypes = async (e, buttonName, inputMap) => {
+    e.preventDefault();
+
+    console.log(e.target[0].value, buttonName);
+    const formData = {};
+
+    const id = e.target[0].value;
+
+    Object.keys(inputMap).forEach((type) => {
+      const name = `${type}name`;
+      const value = `${type}value`;
+
+      const nameInput = e.target[name];
+      const valueInput = e.target[value];
+
+      if (nameInput && valueInput) {
+        formData[name] = nameInput.value;
+        formData[value] = valueInput.value;
+      } else {
+        console.error(`Input elements not found for ${type}`);
+      }
+    });
+
+    console.log(formData);
+
+    try {
+      await fetch(`/api/collection/${collectionId}/item`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id,
+          formData,
+          buttonName,
+        }),
+      });
       mutate();
     } catch (error) {
       console.log(error);
@@ -97,7 +148,7 @@ export default function CollectionPage({ params }) {
 
   const handleUpdateCollectionName = async (e) => {
     e.preventDefault();
-    const name = e.target[1].value;
+    const name = e.target[0].value;
     try {
       await fetch(`/api/collection/${collectionId}`, {
         method: "POST",
@@ -119,6 +170,11 @@ export default function CollectionPage({ params }) {
     e.preventDefault();
 
     const comment = e.target[0].value;
+
+    if (comment.length === 0) {
+      alert("Comment can not be empty!");
+      return;
+    }
 
     try {
       await fetch(`/api/collection/${collectionId}/item`, {
@@ -182,113 +238,194 @@ export default function CollectionPage({ params }) {
     <div className="items-container">
       {!isLoading &&
         data.map((collection) => (
-          <div className="items-div" key={collection.id}>
-            <p className="cardHeading">{text.collection}: {collection.name}</p>
-            <p className="cardHeading">{text.user}: {collection.username}</p>
-            {collection.item.map((item) => (
-              <div className="cardContainer" key={item.id}>
-                <span className="deleteItem" onClick={() => handleDeleteItem(item.id)}>Delete</span>
-                <p className="cardHeading">{text.name}: {item.name}</p>
-                <p className="cardHeading">{text.id}: {item.id}</p>
-                <Image
-                  src={item.image}
-                  height={20}
-                  width={800}
-                  className="cardImage"
-                  alt="Item Image"
-                />
-                <h4>{text.topic}: {item.topic}</h4>
-                <h4>{text.description}: {item.desc}</h4>
-                <h4>{text.tags}: {item.tags}</h4>
-                <div className="likesCommentsContainer">
-                  <div className="countDiv">{item.likes.length} {text.likes}</div>
-                  <div className="countDiv">
-                    {item.comments.length} {text.comments}
-                  </div>
+          <div key={collection.id}>
+            <div className="items-div">
+              <div className="collection-infos">
+                <div className="collection-infos">
+                  <p className="cardHeading">
+                    {text.collection}: {collection.name}
+                  </p>
+                  <p className="cardHeading">
+                    {text.user}: {collection.username}
+                  </p>
+                  {collection.image && (
+                    <Image
+                      src={collection.image}
+                      height={20}
+                      width={800}
+                      className="cardImage"
+                      alt="Item Image"
+                    />
+                  )}
                 </div>
-                <div className="actionsDiv">
-                  <h4
-                    className="customH4"
-                    onClick={() => {
-                      const alreadyLiked = item.likes.filter(
-                        (like) => like.likeUser === session.data.user.name
-                      );
-                      if (alreadyLiked.length) {
-                        handleLike("update-like", item.id, false);
-                      } else {
-                        handleLike("like", item.id, true);
-                      }
-                    }}
-                  >
-                  {text.like}
-                  </h4>
-                  <h4
-                    className="customH4"
-                    onClick={() => setShowComments(!showComments)}
-                  >
-                  {text.comment}
-                  </h4>
-                </div>
-                <form
-                  onSubmit={(e) => handleSubmitComment(e, "add-comment")}
-                  className="commentsForm"
-                >
-                  <input
-                    type="text"
-                    id="comment"
-                    name="comment"
-                    placeholder={text.addComment}
-                    className="commentInput"
-                  />
-                  <button
-                    type="submit"
-                    className="commentButton"
-                    onClick={() => {
-                      setItemId(item.id);
-                    }}
-                  >
-                  {text.post}
-                  </button>
-                </form>
-                <div>
-                  {item.comments.map(({ commentUser, comment }, index) => (
-                    <div className="commentsDiv" key={index}>
-                      {comment && (
-                        <div className="commentsContainer">
-                          <h5>{commentUser}</h5>
-                          <p>{comment}</p>
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                <div className="editDiv">
+                  {isOwner && (
+                    <h3
+                      className="editHeading"
+                      onClick={() => setIsModalOpen(!isModalOpen)}
+                    >
+                      Edit
+                    </h3>
+                  )}
                 </div>
               </div>
-            ))}
+              <div className="items-flex">
+                {collection.item.map((item) => (
+                  <div className="cardContainer" key={item.id}>
+                    {isOwner && (
+                      <span
+                        className="deleteItem"
+                        onClick={() => handleDeleteItem(item.id)}
+                      >
+                        Delete
+                      </span>
+                    )}
+                    <table className="table">
+                      <thead>
+                        <tr className="tr">
+                          <th className="th">{text.id}</th>
+                          <th className="th">{text.name}</th>
+                          <th className="th">{text.topic}</th>
+                          <th className="th">{text.description}</th>
+                          <th className="th">{text.tags}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="tr">
+                          <td className="td">{item.id}</td>
+                          <td className="td">{item.name}</td>
+                          <td className="td">{item.topic}</td>
+                          <td className="td">{item.desc}</td>
+                          <td className="td">{item.tags}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <div className="likesCommentsContainer">
+                      <div className="countDiv">
+                        {item.likes.length} {text.likes}
+                      </div>
+                      <div className="countDiv">
+                        {item.comments.length} {text.comments}
+                      </div>
+                    </div>
+                    <div className="actionsDiv">
+                      <h4
+                        className={`likeH4 ${
+                          item.likes.some(
+                            (like) => like.likeUser === loggedUserName
+                          )
+                            ? "liked"
+                            : ""
+                        }`}
+                        onClick={() => {
+                          const alreadyLiked = item.likes.filter(
+                            (like) => like.likeUser === loggedUserName
+                          );
+                          if (isAuthenticated) {
+                            if (alreadyLiked.length) {
+                              handleLike("update-like", item.id, false);
+                            } else {
+                              handleLike("like", item.id, true);
+                            }
+                          } else {
+                            setShowAuthNotification(true);
+                          }
+                        }}
+                      >
+                        {item.likes.some(
+                          (like) => like.likeUser === loggedUserName
+                        )
+                          ? text.liked
+                          : text.like}
+                      </h4>
+                      <h4
+                        className="commentH4"
+                        onClick={() =>
+                          setShowComments(
+                            showComments === item.id ? null : item.id
+                          )
+                        }
+                      >
+                        {text.comment}
+                      </h4>
+                    </div>
+                    {showComments === item.id && (
+                      <div>
+                        <form
+                          onSubmit={(e) =>
+                            handleSubmitComment(e, "add-comment")
+                          }
+                          className="commentsForm"
+                        >
+                          <input
+                            type="text"
+                            id="comment"
+                            name="comment"
+                            placeholder={text.addComment}
+                            className="commentInput"
+                          />
+                          <button
+                            type="submit"
+                            className="commentButton"
+                            onClick={() => {
+                              if (isAuthenticated) {
+                                setItemId(item.id);
+                              } else {
+                                setShowAuthNotification(true);
+                              }
+                            }}
+                          >
+                            {text.post}
+                          </button>
+                        </form>
+                        <div>
+                          {item.comments.map(
+                            ({ commentUser, comment }, index) => (
+                              <div className="commentsDiv" key={index}>
+                                {comment && (
+                                  <div className="commentsContainer">
+                                    <h5>{commentUser}</h5>
+                                    <p>{comment}</p>
+                                  </div>
+                                )}
+                              </div>
+                            )
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         ))}
-        {isOwner && (
-          <div className="items-flex">
-            <UpdateCollectionNameForm
-              handleUpdateCollectionName={handleUpdateCollectionName}
-            />
-            <UpdateCollectionItemsForm handleSubmit={handleSubmit} />
-            <AddItemsToCollectionForm handleSubmit={handleSubmit} />
+      {isOwner && isModalOpen && (
+        <div className=" modalOverlay">
+          <div className="modalFlex">
+            <div className="modalContent" onClick={(e) => e.stopPropagation()}>
+              <UpdateCollectionNameForm
+                handleUpdateCollectionName={handleUpdateCollectionName}
+              />
+              <UpdateCollectionItemsForm handleSubmit={handleSubmit} />
+              <AddItemsToCollectionForm handleSubmit={handleSubmit} />
+              <AddTypesToItem handleSubmit={handleSubmitTypes} />
+            </div>
+            <div>
+              <button
+                className="closeModalButton"
+                onClick={() => setIsModalOpen(false)}
+              >
+                Close
+              </button>
+            </div>
           </div>
-        )}
+        </div>
+      )}
+      {showAuthNotification && (
+        <AuthNotification onClose={() => setShowAuthNotification(false)} />
+      )}
     </div>
   );
 }
-
-
-/**
- 
- {isOwner && (
-        <div className="items-flex">
-          <UpdateCollectionNameForm
-            handleUpdateCollectionName={handleUpdateCollectionName}
-          />
-          <UpdateCollectionItemsForm handleSubmit={handleSubmit} />
-          <AddItemsToCollectionForm handleSubmit={handleSubmit} />
-        </div>
-      )}
- */

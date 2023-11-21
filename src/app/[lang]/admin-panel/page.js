@@ -9,6 +9,8 @@ import styles from "./page.module.scss"
 
 import { isAdmin } from "@/utils/isAdmin";
 import { useState } from "react";
+import { useUsers } from "@/contexts/usersContext";
+import Spinner from "@/components/loading-spinner/Spinner";
 
 export default function AdminPanel({ params: { lang } }) {
   const session = useSession();
@@ -16,28 +18,13 @@ export default function AdminPanel({ params: { lang } }) {
 
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
+  const [isSpinnerVisible, setSpinnerVisible] = useState(false);
 
-  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+  const { users, isLoading, mutate } = useUsers();
 
-  const { data, mutate, error, isLoading } = useSWR(`/api/users`, fetcher);
-
-  if (!isAdmin(isLoading, data, session)) {
+  if (!isAdmin(isLoading, users, session)) {
     router.push(`/${lang}/`);
   }
-
-  const handleAdminAccess = async (userId) => {
-    try {
-      await fetch("/api/admin", {
-        method: "POST",
-        body: JSON.stringify({
-          id: userId,
-        }),
-      });
-      mutate();
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const toggleCheckbox = (userId, userEmail) => {
     setSelectedUsers((prevSelectedUsers) => {
@@ -52,6 +39,7 @@ export default function AdminPanel({ params: { lang } }) {
   const handleAction = async (buttonName) => {
     const selectedUserIds = selectedUsers.map((user) => user.userId);
     try {
+      setSpinnerVisible(true);
       await fetch(`/api/admin`, {
         method: "POST",
         body: JSON.stringify({
@@ -71,6 +59,8 @@ export default function AdminPanel({ params: { lang } }) {
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      setSpinnerVisible(false);
     }
   };
 
@@ -79,7 +69,7 @@ export default function AdminPanel({ params: { lang } }) {
       setSelectedUsers([]);
     } else {
       setSelectedUsers(
-        data.map((user) => ({
+        users.map((user) => ({
           userId: user.id,
           userEmail: user.email,
         }))
@@ -90,6 +80,7 @@ export default function AdminPanel({ params: { lang } }) {
 
   return (
     <div className={styles.mainDiv}>
+    {isSpinnerVisible && <Spinner />}
       <div className={styles.tableContainer}>
         <div className={styles.tableDiv}>
           <a className={styles.blockButton} onClick={() => handleAction("block")}>Block</a>
@@ -125,7 +116,7 @@ export default function AdminPanel({ params: { lang } }) {
             </thead>
             <tbody>
               {!isLoading &&
-                data.map((user, index) => {
+                users.map((user, index) => {
                   // const filteredData = data.filter(u => u.email !== session.data.user.email)
                   try {
                     if (user.isBlocked) {

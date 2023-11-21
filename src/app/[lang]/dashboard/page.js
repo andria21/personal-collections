@@ -7,7 +7,7 @@ import styles from "./page.module.scss";
 
 import useSWR from "swr";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getDictionary } from "../../../../getDictionary";
 
 export default function Dashboard({ params }) {
@@ -28,6 +28,9 @@ export default function Dashboard({ params }) {
 
   const { data, mutate, error, isLoading } = useSWR(`/api/collection`, fetcher);
 
+  const tags = ["h1", "h2", "h3", "h4", "h5", "h6"];
+  const topics = ["Books", "Signs", "Cars", "Watches"];
+
   if (session.data?.user === "unauthenticated")
     router.push(`/${params.lang}/login`);
 
@@ -38,6 +41,7 @@ export default function Dashboard({ params }) {
     const collectionDescription = e.target[1].value;
     const collectionTopic = e.target[2].value;
     const collectionImage = e.target[3].value;
+    const collectionMarkdown = e.target[4].value;
 
     try {
       await fetch("/api/collection", {
@@ -51,9 +55,13 @@ export default function Dashboard({ params }) {
           collectionDescription,
           collectionTopic,
           collectionImage,
+          collectionMarkdown,
         }),
       });
       e.target[0].value = "";
+      e.target[1].value = "";
+      e.target[2].value = "";
+      e.target[3].value = "";
       mutate();
     } catch (error) {
       console.log(error);
@@ -103,13 +111,13 @@ export default function Dashboard({ params }) {
         </div>
         <div className={styles.formGroup}>
           <label className={styles.label}>{text.collectionTopic}:</label>
-          <input
-            className={styles.input}
-            type="text"
-            id="collectionTopic"
-            name="collectionTopic"
-            required
-          />
+          <select className={styles.input}>
+            {topics.map((topic) => (
+              <option key={topic} value={topic}>
+                {topic.toUpperCase()}
+              </option>
+            ))}
+          </select>
         </div>
         <div className={styles.formGroup}>
           <label className={styles.label}>{text.collectionImage}:</label>
@@ -119,6 +127,16 @@ export default function Dashboard({ params }) {
             id="collectionImage"
             name="collectionImage"
           />
+        </div>
+        <div className={styles.formGroup}>
+          <label className={styles.label}>{text.collectionMarkdown}:</label>
+          <select className={styles.input}>
+            {tags.map((tag) => (
+              <option key={tag} value={tag}>
+                {tag.toUpperCase()}
+              </option>
+            ))}
+          </select>
         </div>
         <button className={styles.button} type="submit">
           {text.submit}

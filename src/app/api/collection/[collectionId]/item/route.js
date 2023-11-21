@@ -18,7 +18,10 @@ export const POST = async (request, { params }) => {
     commentUser,
     likeUser,
     like,
+    formData,
   } = await request.json();
+
+  console.log(formData);
 
   const { collectionId } = params;
   await connect;
@@ -35,12 +38,34 @@ export const POST = async (request, { params }) => {
               desc,
               topic,
               tags,
-
             },
           },
         },
       });
     } else if (buttonName === "update-items") {
+      const updateData = {};
+    
+      // Add fields to updateData only if they are non-empty
+      if (name !== undefined && name !== null && name !== "") {
+        updateData.name = name;
+      }
+    
+      if (image !== undefined && image !== null && image !== "") {
+        updateData.image = image;
+      }
+    
+      if (desc !== undefined && desc !== null && desc !== "") {
+        updateData.desc = desc;
+      }
+    
+      if (topic !== undefined && topic !== null && topic !== "") {
+        updateData.topic = topic;
+      }
+    
+      if (tags !== undefined && tags !== null && tags.length > 0) {
+        updateData.tags = tags;
+      }
+    
       try {
         await prisma.collection.update({
           where: { id: collectionId },
@@ -48,20 +73,41 @@ export const POST = async (request, { params }) => {
             item: {
               updateMany: {
                 where: { id: id },
-                data: {
-                  name,
-                  id,
-                  image,
-                  desc,
-                  topic,
-                  tags,
-                },
+                data: updateData,
               },
             },
           },
         });
       } catch (error) {
         console.log(error);
+      }
+    } else if (buttonName === "add-types") {
+      for (const key in formData) {
+        if (formData.hasOwnProperty(key)) {
+          // console.log(`${key}: ${formData[key]}`);
+          const value = formData[key];
+          // const displayValue = typeof value === 'string' && /^\d+$/.test(value) ? parseInt(value, 10) : value;
+          if (value !== null && value !== undefined && value !== "") {
+            console.log(value);
+            try {
+              await prisma.collection.update({
+                where: { id: collectionId },
+                data: {
+                  item: {
+                    updateMany: {
+                      where: { id: id },
+                      data: {
+                        [key]: value,
+                      },
+                    },
+                  },
+                },
+              });
+            } catch (error) {
+              console.log(error);
+            }
+          }
+        }
       }
     } else if (buttonName === "add-comment") {
       await prisma.collection.update({
@@ -138,9 +184,9 @@ export const DELETE = async (request, { params }) => {
       data: {
         item: {
           deleteMany: {
-            where: { id: itemId }
-          }
-        }
+            where: { id: itemId },
+          },
+        },
       },
     });
 

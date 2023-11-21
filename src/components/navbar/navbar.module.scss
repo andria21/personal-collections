@@ -1,7 +1,10 @@
 .container {
-  padding-top: 30px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #323235;
+  // padding-top: 30px;
+  // padding-bottom: 10px;
+  // border-bottom: 1px solid #323235;
+  background-color: #2B2B2B;
+  border-radius: 15px;
+  padding: 15px;
 }
 
 .flexContainer {
@@ -13,17 +16,23 @@
 .linksContainer {
   display: flex;
   gap: 10px;
-  font-size: 1.0625em;
+  font-size: 15px;
   align-items: center;
+  font-weight: bold;
+  line-height: 1.5px;
 }
 
 .navLink {
   margin-left: 20px;
+  // color: #000;
+  color: #fff;
 }
 
 .logo {
   font-weight: bold;
   font-size: 26px;
+  color: #fff;
+  // color: #000;
 
   &:hover {
     color: #ff9900;
@@ -65,13 +74,13 @@
 
 .signOutButton {
   background-color: #435b66;
-  color: #000;
+  color: #fff;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
 
   &:hover {
     background-color: #2d4356;
-    color: #fff;
+    color: #000;
   }
 }

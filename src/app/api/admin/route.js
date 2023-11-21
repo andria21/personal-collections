@@ -11,7 +11,7 @@ export const POST = async (request) => {
     const { id, buttonName } = await request.json();
 
     try {
-        const user = await prisma.user.findMany({ where: { id: { in: id } } });
+        // const user = await prisma.user.findMany({ where: { id: { in: id } } });
 
         if (buttonName === "block") {
             await prisma.user.updateMany({

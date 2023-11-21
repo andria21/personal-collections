@@ -1,12 +1,12 @@
 {
   "navigation": {
-    "home": "Home",
-    "search": "Search",
-    "dashboard": "Dashboard",
-    "adminPanel": "Admin Panel",
+    "home": "HOME",
+    "search": "SEARCH",
+    "dashboard": "DASHBOARD",
+    "adminPanel": "ADMIN PANEL",
     "signOut": "SIGN OUT",
-    "register": "Register",
-    "login": "Login"
+    "register": "REGISTER",
+    "login": "LOGIN"
   },
   "page": {
     "home": {
@@ -23,6 +23,7 @@
       "collectionDescription": "Collection Description",
       "collectionTopic": "Collection Topic",
       "collectionImage": "Collection Image (optional)",
+      "collectionMarkdown": "Collection Title Format",
       "submit": "Submit",
       "yourCollections": "Your Collections",
       "collection": "Collection",
@@ -35,6 +36,7 @@
       "likes": "Likes",
       "comments": "Comments",
       "like": "Like",
+      "liked": "Liked",
       "comment": "Comment",
       "addComment": "Add a comment",
       "post": "Post",

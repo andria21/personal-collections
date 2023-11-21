@@ -21,7 +21,6 @@ export default function Search({ onSearchResults }) {
 
   useEffect(() => {
     query.length === 0 && setSearchData([])
-    console.log("executed");
   }, [query])
   // !isLoading && query && onSearchResults(data);
 

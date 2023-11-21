@@ -10,14 +10,26 @@ body {
   overflow-x: hidden;
 }
 
+// body {
+//   color: rgb(var(--foreground-rgb));
+//   background: linear-gradient(
+//       to bottom,
+//       transparent,
+//       rgb(var(--background-end-rgb))
+//     )
+//     rgb(var(--background-start-rgb));
+// }
+
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  &.light {
+    background-color: white;
+    color: #000;
+  }
+
+  &.dark {
+    background-color: #18191A;
+    color: #fff;
+  }
 }
 
 a {
@@ -27,15 +39,15 @@ a {
 
 
 
-.light {
-  background-color: white;
-  color: #000;
-}
+// .light {
+//   background-color: white;
+//   color: #000;
+// }
 
-.dark {
-  background-color: #18191A;
-  color: #fff;
-}
+// .dark {
+//   background-color: #18191A;
+//   color: #fff;
+// }
 
 .theme {
   transition: 1s all ease;
