@@ -113,3 +113,15 @@
     }
   }
 }
+
+
+@media (min-width: 300px) and (max-width: 500px) {
+  .registerContainer{
+    height: 100%;
+  }
+  .registerForm {
+    width: 350px;
+    margin-bottom: 50px;
+    margin-top: 200px;
+  }
+}
