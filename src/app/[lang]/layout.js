@@ -1,4 +1,4 @@
-import { Inter, Open_Sans } from "next/font/google";
+import { Inter, Open_Sans, Montserrat } from "next/font/google";
 import "./globals.scss";
 import AuthProvider from "@/components/auth-provider/AuthProvider";
 import Navbar from "@/components/navbar/Navbar";
@@ -11,6 +11,7 @@ import { TagsProvider } from "@/contexts/tagsSearchContext";
 
 const inter = Inter({ subsets: ["latin"] });
 const openSans = Open_Sans({ subsets: ["latin"], weight: "500" });
+const montserrat = Montserrat({ subsets: ["latin"], weight: "500" });
 
 export const metadata = {
   title: "Collection App",
@@ -21,7 +22,7 @@ export default function RootLayout({ children, params }) {
   return (
     <html lang={params.lang}>
       <body
-        className={`${openSans.className} theme dark`}
+        className={`${montserrat.className} theme dark`}
         suppressHydrationWarning={true}
       >
         <AuthProvider>

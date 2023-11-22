@@ -73,15 +73,19 @@
 }
 
 .signOutButton {
-  background-color: #435b66;
+  background-color: #4d4b4b;
   color: #fff;
   border: none;
+  // border: 1px solid #696767;
   padding: 10px 20px;
   cursor: pointer;
+  font-weight: bold;
+  letter-spacing: 1px;
+  border-radius: 3px;
 
   &:hover {
-    background-color: #2d4356;
-    color: #000;
+    background-color: #252525;
+    color: #ccc;
   }
 }
 
@@ -152,6 +156,7 @@
   &::after {
     transform: translateY(10px);
   }
+  position: relative;
 }
 
 .activeHamburger {

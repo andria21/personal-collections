@@ -64,14 +64,14 @@ export default function MainMenu({
   return (
     <div className={styles.container}>
       <div className={styles.latestCollectionsContainer}>
-        <h1>5 Largest Collections</h1>
+        <h2>5 Largest Collections</h2>
         {!isLoading &&
           sortedCollectionsBySize.map((largestCollections) => (
             <div key={largestCollections.id}>{largestCollections.name}</div>
           ))}
       </div>
       <div className={styles.collectionContainer}>
-        <h1>Latest Items</h1>
+        <h1 className={styles.latestItemsHeading}>Latest Items</h1>
         {searchData?.length
           ? searchData?.map((col) =>
               col.item.map((item) => (
@@ -118,13 +118,18 @@ export default function MainMenu({
             )
           : Array.from(usersCollectionsMap).map(([username, items]) => (
               <div key={username} className={styles.userCollectionContainer}>
-                <h1 className={styles.author}>Author: {username}</h1>
-                <h2 className={styles.collectionHead}>Collections & Items</h2>
+                <h2 className={styles.author}>Author: {username}</h2>
+                <h3 className={styles.collectionHead}>Collections & Items</h3>
                 <div className={styles.collectionsItemsContainer}>
                   <div className={styles.colContainer}>
                     {items.map(({ name, id }, index) => (
                       <div key={index} className={styles.collection}>
-                        <Link className={styles.collectionLink} href={`/${params.lang}/dashboard/${id}`}>{name}</Link>
+                        <Link
+                          className={styles.collectionLink}
+                          href={`/${params.lang}/dashboard/${id}`}
+                        >
+                          {name}
+                        </Link>
                       </div>
                     ))}
                   </div>
@@ -142,10 +147,14 @@ export default function MainMenu({
             ))}
       </div>
       <div className={styles.tagCloudContainer}>
-        <h1>Tag Cloud</h1>
+        <h2>Tag Cloud</h2>
         {!isLoading &&
           data.map((collection) =>
-            collection.item.map((item) => <div key={item.id}>{item.tags}</div>)
+            collection.item.map((item) => (
+              <div key={item.id}>
+                <p>{item.tags}</p>
+              </div>
+            ))
           )}
       </div>
     </div>

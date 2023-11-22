@@ -190,6 +190,7 @@
 .cardContainer {
   width: 100%;
   max-width: 900px;
+  overflow-x: auto;
   border-radius: 10px;
   box-shadow: 0 3px 4px rgba(83, 80, 80, 0.1);
   padding: 16px;
@@ -403,7 +404,7 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-  word-break: break-all;
+  // word-break: break-all;
 }
 
 .items-grid {
@@ -424,5 +425,8 @@
     align-items: flex-start;
     justify-content: space-between;
     gap: 40px;
+  }
+  .table {
+    word-break: break-all;
   }
 }

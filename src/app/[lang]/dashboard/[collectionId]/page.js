@@ -17,6 +17,7 @@ import {
 import { getDictionary } from "../../../../../getDictionary";
 import AuthNotification from "@/components/auth-notification/AuthNotification";
 import { isAdmin } from "@/utils/isAdmin";
+import { useUsers } from "@/contexts/usersContext";
 
 export default function CollectionPage({ params }) {
   const session = useSession();
@@ -28,6 +29,8 @@ export default function CollectionPage({ params }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showComments, setShowComments] = useState(null);
   const [showAuthNotification, setShowAuthNotification] = useState(false);
+
+  const { users } = useUsers();
 
   const [text, setText] = useState({});
   useEffect(() => {
@@ -60,7 +63,7 @@ export default function CollectionPage({ params }) {
 
   const isOwner =
     (!isLoading && data.some((u) => u.username === session.data?.user.email)) ||
-    isAdmin(session);
+    isAdmin(isLoading, users, session);
 
   const handleSubmit = async (e, buttonName) => {
     e.preventDefault();
@@ -287,6 +290,21 @@ export default function CollectionPage({ params }) {
                           <th className="th">{text.topic}</th>
                           <th className="th">{text.description}</th>
                           <th className="th">{text.tags}</th>
+                          {item.int1name && <th className="th">{item.int1name}</th>}
+                          {item.int2name && <th className="th">{item.int2name}</th>}
+                          {item.int3name && <th className="th">{item.int3name}</th>}
+                          {item.string1name && <th className="th">{item.string1name}</th>}
+                          {item.string2name && <th className="th">{item.string2name}</th>}
+                          {item.string3name && <th className="th">{item.string3name}</th>}
+                          {item.multiline1name && <th className="th">{item.multiline1name}</th>}
+                          {item.multiline2name && <th className="th">{item.multiline2name}</th>}
+                          {item.multiline3name && <th className="th">{item.multiline3name}</th>}
+                          {item.boolean1name && <th className="th">{item.boolean1name}</th>}
+                          {item.boolean2name && <th className="th">{item.boolean2name}</th>}
+                          {item.boolean3name && <th className="th">{item.boolean3name}</th>}
+                          {item.date1name && <th className="th">{item.date1name}</th>}
+                          {item.date2name && <th className="th">{item.date2name}</th>}
+                          {item.date3name && <th className="th">{item.date3name}</th>}
                         </tr>
                       </thead>
                       <tbody>
@@ -296,6 +314,21 @@ export default function CollectionPage({ params }) {
                           <td className="td">{item.topic}</td>
                           <td className="td">{item.desc}</td>
                           <td className="td">{item.tags}</td>
+                          {item.int1value && <td className="td">{item.int1value}</td>}
+                          {item.int2value && <td className="td">{item.int2value}</td>}
+                          {item.int3value && <td className="td">{item.int3value}</td>}
+                          {item.string1value && <td className="td">{item.string1value}</td>}
+                          {item.string2value && <td className="td">{item.string2value}</td>}
+                          {item.string3value && <td className="td">{item.string3value}</td>}
+                          {item.multiline1value && <td className="td">{item.multiline1value}</td>}
+                          {item.multiline2value && <td className="td">{item.multiline2value}</td>}
+                          {item.multiline3value && <td className="td">{item.multiline3value}</td>}
+                          {item.boolean1value && <td className="td">{item.boolean1value}</td>}
+                          {item.boolean2value && <td className="td">{item.boolean2value}</td>}
+                          {item.boolean3value && <td className="td">{item.boolean3value}</td>}
+                          {item.date1value && <td className="td">{item.date1value}</td>}
+                          {item.date2value && <td className="td">{item.date2value}</td>}
+                          {item.date3value && <td className="td">{item.date3value}</td>}
                         </tr>
                       </tbody>
                     </table>
