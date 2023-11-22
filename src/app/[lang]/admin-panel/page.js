@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 import useSWR from "swr";
 
-import styles from "./page.module.scss"
+import styles from "./page.module.scss";
 
 import { isAdmin } from "@/utils/isAdmin";
 import { useState } from "react";
@@ -80,73 +80,96 @@ export default function AdminPanel({ params: { lang } }) {
 
   return (
     <div className={styles.mainDiv}>
-    {isSpinnerVisible && <Spinner />}
+      {isSpinnerVisible && <Spinner />}
       <div className={styles.tableContainer}>
         <div className={styles.tableDiv}>
-          <a className={styles.blockButton} onClick={() => handleAction("block")}>Block</a>
-          <a className={styles.blockButton} onClick={() => handleAction("unblock")}>
+          <a
+            className={styles.blockButton}
+            onClick={() => handleAction("block")}
+          >
+            Block
+          </a>
+          <a
+            className={styles.blockButton}
+            onClick={() => handleAction("unblock")}
+          >
             Unblock
           </a>
-          <a className={styles.blockButton} onClick={() => handleAction("delete")}>
+          <a
+            className={styles.blockButton}
+            onClick={() => handleAction("delete")}
+          >
             Delete
           </a>
-          <a className={styles.blockButton} onClick={() => handleAction("add-admin")}>
+          <a
+            className={styles.blockButton}
+            onClick={() => handleAction("add-admin")}
+          >
             Add Admin
           </a>
-          <a className={styles.blockButton} onClick={() => handleAction("remove-admin")}>
+          <a
+            className={styles.blockButton}
+            onClick={() => handleAction("remove-admin")}
+          >
             Remove Admin
           </a>
 
           <div>
-            <thead>
-              <tr className={styles.tr}>
-                <th className={styles.th}>
-                  <input
-                    type="checkbox"
-                    checked={selectAll}
-                    onChange={handleSelectAll}
-                  />
-                </th>
-                <th className={styles.th}>ID</th>
-                <th className={styles.th}>Name</th>
-                <th className={styles.th}>e-Mail</th>
-                <th className={styles.th}>Status</th>
-                <th className={styles.th}>Admin Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {!isLoading &&
-                users.map((user, index) => {
-                  // const filteredData = data.filter(u => u.email !== session.data.user.email)
-                  try {
-                    if (user.isBlocked) {
-                      if (session.data.user.email === user.email) {
-                        signOut();
+            <table className={styles.table}>
+              <thead>
+                <tr className={styles.tr}>
+                  <th className={styles.th}>
+                    <input
+                      type="checkbox"
+                      checked={selectAll}
+                      onChange={handleSelectAll}
+                    />
+                  </th>
+                  <th className={styles.th}>ID</th>
+                  <th className={styles.th}>Name</th>
+                  <th className={styles.th}>e-Mail</th>
+                  <th className={styles.th}>Status</th>
+                  <th className={styles.th}>Admin Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {!isLoading &&
+                  users.map((user, index) => {
+                    // const filteredData = data.filter(u => u.email !== session.data.user.email)
+                    try {
+                      if (user.isBlocked) {
+                        if (session.data.user.email === user.email) {
+                          signOut();
+                        }
                       }
+                    } catch (error) {
+                      console.log(error);
                     }
-                  } catch (error) {
-                    console.log(error);
-                  }
-                  return (
-                    <tr className={styles.tr} key={user.id}>
-                      <td className={styles.td}>
-                        <input
-                          type="checkbox"
-                          checked={selectedUsers.some(
-                            (u) => u.userId === user.id
-                          )}
-                          onChange={() => toggleCheckbox(user.id, user.email)}
-                        />
-                      </td>
-                      <td className={styles.td}>{index + 1}</td>
-                      <td className={styles.td}>{user.name}</td>
-                      <td className={styles.td}>{user.email}</td>
-                      <td className={styles.td}>{user.isBlocked ? "Blocked" : "Active"}</td>
-                      <td className={styles.td}>{user.isAdmin ? "True" : "False"}</td>
-                    </tr>
-                  );
-                })}
-            </tbody>
+                    return (
+                      <tr className={styles.tr} key={user.id}>
+                        <td className={styles.td}>
+                          <input
+                            type="checkbox"
+                            checked={selectedUsers.some(
+                              (u) => u.userId === user.id
+                            )}
+                            onChange={() => toggleCheckbox(user.id, user.email)}
+                          />
+                        </td>
+                        <td className={styles.td}>{index + 1}</td>
+                        <td className={styles.td}>{user.name}</td>
+                        <td className={styles.td}>{user.email}</td>
+                        <td className={styles.td}>
+                          {user.isBlocked ? "Blocked" : "Active"}
+                        </td>
+                        <td className={styles.td}>
+                          {user.isAdmin ? "True" : "False"}
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

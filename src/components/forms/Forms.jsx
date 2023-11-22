@@ -46,14 +46,6 @@ export const UpdateCollectionItemsForm = ({ handleSubmit }) => {
         className="input-test"
         placeholder="Enter name"
       />
-      <label className="label">Image:</label>
-      <input
-        type="text"
-        id="image"
-        name="image"
-        className="input-test"
-        placeholder="Enter image URL"
-      />
       <label className="label">Desc:</label>
       <input
         type="text"
@@ -106,14 +98,6 @@ export const AddItemsToCollectionForm = ({ handleSubmit }) => {
         className="input-test"
         placeholder="Enter name"
         required
-      />
-      <label className="label">Image (optional):</label>
-      <input
-        type="text"
-        id="image"
-        name="image"
-        className="input-test"
-        placeholder="Enter image URL (optional)"
       />
       <label className="label">Desc:</label>
       <input

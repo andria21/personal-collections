@@ -82,7 +82,7 @@
   padding: 10px 40px;
   position: relative;
   border: 2px solid #ffffff;
-  width: 40%;
+
   cursor: pointer;
   &:hover {
     color: #242526;
@@ -127,4 +127,9 @@
   font-weight: bolder;
   color: red;
   cursor: pointer;
+}
+
+
+@media screen and (max-width: 1250px) {
+
 }

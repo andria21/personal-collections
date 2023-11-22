@@ -34,7 +34,6 @@ export const POST = async (request, { params }) => {
             push: {
               name,
               id,
-              image,
               desc,
               topic,
               tags,
@@ -48,10 +47,6 @@ export const POST = async (request, { params }) => {
       // Add fields to updateData only if they are non-empty
       if (name !== undefined && name !== null && name !== "") {
         updateData.name = name;
-      }
-    
-      if (image !== undefined && image !== null && image !== "") {
-        updateData.image = image;
       }
     
       if (desc !== undefined && desc !== null && desc !== "") {

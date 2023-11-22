@@ -69,10 +69,15 @@
   }
 }
 
+.table {
+  border-collapse: collapse;
+}
+
 .td {
   padding: 20px;
   border: 1px solid #3A3B3C;
-  text-align: center;  
+  text-align: center;
+  word-break: break-all;
 }
 .th {
   padding: 20px;
@@ -90,4 +95,13 @@
   align-items: center;
   margin-top: 50px;
   padding-bottom: 150px;
+}
+
+@media screen and (max-width: 650px) {
+  .mainDiv {
+    flex-wrap: wrap;
+  }
+  .table {
+    word-break: break-all;
+  }
 }

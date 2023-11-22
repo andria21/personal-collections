@@ -6,6 +6,8 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
+import styles from "./search.module.scss";
+
 export default function Search({ onSearchResults }) {
   const [query, setQuery] = useState("");
   const { searchData, setSearchData } = useSearch();
@@ -30,6 +32,7 @@ export default function Search({ onSearchResults }) {
       placeholder="Search collection item..."
       value={query}
       onChange={(e) => setQuery(e.target.value)}
+      className={styles.searchInput}
     />
   );
 }

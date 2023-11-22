@@ -5,7 +5,6 @@ import styles from "./navbar.module.scss";
 import { signOut, useSession } from "next-auth/react";
 
 import DarkModeToggle from "../dark-mode-toggle/DarkModeToggle";
-import useSWR from "swr";
 import { isAdmin } from "@/utils/isAdmin";
 import { useEffect, useState } from "react";
 import { getDictionary } from "../../../getDictionary";
@@ -21,6 +20,7 @@ export default function Navbar({ params }) {
 
   const [text, setText] = useState({});
   const [language, setLanguage] = useState("");
+  const [active, setActive] = useState(false);
 
   useEffect(() => {
     const func = async () => {
@@ -49,30 +49,51 @@ export default function Navbar({ params }) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.flexContainer}>
+      <div onClick={() => setActive(!active)}>
+        <div className={active ? styles.activeHamburger : styles.hamburger} />
+      </div>
+      <div className={`${active ? styles.activeSidenav : styles.sidenav}`}>
         <Link className={styles.logo} href={`/${params.lang}/`}>
           CollectionApp
         </Link>
-        <div className={styles.linksContainer}>
+        <div className={`${styles.linksContainer}`}>
           <DarkModeToggle />
-          <label className={styles.navLink} htmlFor="gsearch">{text.search}:</label>
+          <label className={styles.navLink} htmlFor="gsearch">
+            {text.search}:
+          </label>
           <Search />
-          <Link className={styles.navLink} href={`/${params.lang}/`}>
+          <Link
+            className={styles.navLink}
+            href={`/${params.lang}/`}
+            onClick={() => setActive(false)}
+          >
             {text.home}
           </Link>
           {session.status === "authenticated" && (
-            <Link className={styles.navLink} href={`/${params.lang}/dashboard`}>
+            <Link
+              className={styles.navLink}
+              href={`/${params.lang}/dashboard`}
+              onClick={() => setActive(false)}
+            >
               {text.dashboard}
             </Link>
           )}
           {session.status === "unauthenticated" && (
-            <Link className={styles.navLink} href={`/${params.lang}/login`}>
+            <Link
+              className={styles.navLink}
+              href={`/${params.lang}/login`}
+              onClick={() => setActive(false)}
+            >
               {text.login}
             </Link>
           )}
 
           {session.status === "unauthenticated" && (
-            <Link className={styles.navLink} href={`/${params.lang}/register`}>
+            <Link
+              className={styles.navLink}
+              href={`/${params.lang}/register`}
+              onClick={() => setActive(false)}
+            >
               {text.register}
             </Link>
           )}
@@ -82,6 +103,7 @@ export default function Navbar({ params }) {
               <Link
                 className={styles.navLink}
                 href={`/${params.lang}/admin-panel`}
+                onClick={() => setActive(false)}
               >
                 {text.adminPanel}
               </Link>
@@ -100,7 +122,6 @@ export default function Navbar({ params }) {
           >
             🏴🇷🇺
           </Link>
-          
         </div>
         {session.status === "authenticated" && (
           <button

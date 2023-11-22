@@ -45,7 +45,6 @@ type Item {
   topic       String?
   desc        String?
   tags        String?
-  image       String?
   comments    Comment[]
   likes       Like[]
 

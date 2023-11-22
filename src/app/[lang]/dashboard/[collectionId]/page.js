@@ -67,11 +67,11 @@ export default function CollectionPage({ params }) {
 
     const id = e.target[0].value;
     const name = e.target[1].value;
-    const image = e.target[2].value;
-    const desc = e.target[3].value;
-    const topic = e.target[4].value;
-    const tags = e.target[5].value;
-    const comment = e.target[6].value;
+    // const image = e.target[2].value;
+    const desc = e.target[2].value;
+    const topic = e.target[3].value;
+    const tags = e.target[4].value;
+    const comment = e.target[5].value;
 
     try {
       await fetch(`/api/collection/${collectionId}/item`, {
@@ -82,7 +82,6 @@ export default function CollectionPage({ params }) {
         body: JSON.stringify({
           name,
           id,
-          image,
           desc,
           topic,
           tags,
