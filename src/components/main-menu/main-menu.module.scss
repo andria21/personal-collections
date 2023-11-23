@@ -191,10 +191,35 @@
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 602px) {
   .container {
     flex-wrap: nowrap;
   }
 }
+
+@media (max-width: 440px) {
+  .latestItemsHeading {
+    font-size: 20px;
+  }
+  .author {
+    font-size: 12px;
+  }
+  .collectionHead {
+    font-size: 12px;
+  }
+  .collectionLink {
+    font-size: 11px;
+  }
+  .itemNameP {
+    font-size: 11px;
+  }
+  .largestHeading {
+    font-size: 20px;
+  }
+  .tagHeading {
+    font-size: 20px;
+  }
+}
+
 
 // and (max-width: 500px)

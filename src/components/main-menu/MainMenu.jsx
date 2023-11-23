@@ -64,7 +64,7 @@ export default function MainMenu({
   return (
     <div className={styles.container}>
       <div className={styles.latestCollectionsContainer}>
-        <h2>5 Largest Collections</h2>
+        <h2 className={styles.largestHeading}>5 Largest Collections</h2>
         {!isLoading &&
           sortedCollectionsBySize.map((largestCollections) => (
             <div key={largestCollections.id}>{largestCollections.name}</div>
@@ -137,7 +137,7 @@ export default function MainMenu({
                     {items.map((item) =>
                       item.item.map((i) => (
                         <div key={i.id} className={styles.item}>
-                          <p>{i.name}</p>
+                          <p className={styles.itemNameP}>{i.name}</p>
                         </div>
                       ))
                     )}
@@ -147,7 +147,7 @@ export default function MainMenu({
             ))}
       </div>
       <div className={styles.tagCloudContainer}>
-        <h2>Tag Cloud</h2>
+        <h2 className={styles.tagHeading}>Tag Cloud</h2>
         {!isLoading &&
           data.map((collection) =>
             collection.item.map((item) => (

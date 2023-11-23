@@ -9,3 +9,15 @@
     border: 2px solid #fff;
   }
 }
+
+@media screen and (max-width: 460px) {
+  .searchInput {
+    font-size: 7px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .searchInput {
+    font-size: 4px;
+  }
+}
