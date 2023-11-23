@@ -6,6 +6,7 @@ import { signIn, useSession } from "next-auth/react";
 import styles from "./page.module.scss";
 
 import useSWR from "swr";
+import { GithubSignInButton } from "@/components/github-auth/GithubSignInButton";
 
 export default function Login({ params: { lang } }) {
   const session = useSession();
@@ -64,6 +65,7 @@ export default function Login({ params: { lang } }) {
             - Create a new account -
           </a>
         </div>
+        <GithubSignInButton />
       </form>
     </div>
   );
