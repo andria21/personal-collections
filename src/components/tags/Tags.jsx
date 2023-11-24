@@ -3,11 +3,12 @@
 import useSWR from "swr";
 import { useTagSearch } from "@/contexts/tagsSearchContext";
 import styles from "./tags.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 
-export default function Tags() {
+export default function TagCloud({ loading, tagsData, params }) {
   const [query, setQuery] = useState("");
-  const { tagsSearchData, setTagsSearchData } = useTagSearch();
+  // const { tagsSearchData, setTagsSearchData } = useTagSearch();
 
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
@@ -16,11 +17,46 @@ export default function Tags() {
     fetcher
   );
 
+  // !isLoading && query && setTagsSearchData(data);
+
+  // useEffect(() => {
+  //   query.length === 0 && setTagsSearchData([]);
+  // }, [query]);
+
   return (
-    <div className={styles.tagsContainer}>
-      <div className={styles.tag}>Tag 1</div>
-      <div className={styles.tag}>Tag 2</div>
-      <div className={`${styles.tag} ${styles.selected}`}>Tag 3</div>
+    <div className={styles.tagCloudContainer}>
+      <h2 className={styles.tagHeading}>Tag Cloud</h2>
+      {!loading &&
+        tagsData.map((collection) =>
+          collection.item.map((item) => (
+            <div key={item.id}>
+              <p
+                className={`${styles.tag} ${
+                  query === item.tags && styles.active
+                }`}
+                onClick={() => setQuery(item.tags)}
+              >
+                {item.tags}
+              </p>
+            </div>
+          ))
+        )}
+
+      {query && (
+        <div className={styles.itemContainer}>
+          <h4 className={styles.selectedTitle}>Selected tag items</h4>
+          {!isLoading &&
+            data.map((coll) =>
+              coll.item.map((collectionItem) => (
+                <div key={collectionItem.id}>
+                  <Link href={`/${params.lang}/dashboard/${coll.id}`}>
+                    {collectionItem.name}
+                  </Link>
+                </div>
+              ))
+            )}
+        </div>
+      )}
     </div>
   );
 }

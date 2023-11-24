@@ -9,6 +9,8 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearch } from "@/contexts/searchContext";
+import TagCloud from "../tags/Tags";
+import { useTagSearch } from "@/contexts/tagsSearchContext";
 
 export default function MainMenu({
   collectionName,
@@ -17,10 +19,7 @@ export default function MainMenu({
   text,
   params,
 }) {
-  const router = useRouter();
-
   const { searchData, setSearchData } = useSearch();
-
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
   const { data, mutate, error, isLoading } = useSWR("/api/collection", fetcher);
@@ -29,37 +28,23 @@ export default function MainMenu({
     ? data.sort((a, b) => b.item.length - a.item.length).slice(0, 5)
     : [];
 
-  const sortedCollectionsByDate = data
-    ? data
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-        .slice(0, 5)
-    : [];
-
+  // const sortedCollectionsByDate = data
+  //   ? data
+  //       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+  //       .slice(0, 5)
+  //   : [];
   const usersCollectionsMap = new Map();
 
   if (!isLoading) {
     data.forEach((coll) => {
       const { username, item, name, id } = coll;
-
-      // If the username is not in the map, add it with an array containing the item and collectionName
       if (!usersCollectionsMap.has(username)) {
         usersCollectionsMap.set(username, [{ item, name, id }]);
       } else {
-        // If the username is already in the map, push the item and collectionName to the existing array
         usersCollectionsMap.get(username).push({ item, name, id });
       }
     });
   }
-
-  // Display the unique usernames, collection names, and associated item arrays
-  // usersCollectionsMap.forEach((items, username) => {
-  //   console.log(`Username: ${username}`);
-  //   items.forEach(({ item, name }) => {
-  //     console.log(`Collection Name: ${name}`);
-  //     console.log(`Item array: ${item}`);
-  //     console.log('---');
-  //   });
-  // });
 
   return (
     <div className={styles.container}>
@@ -146,17 +131,7 @@ export default function MainMenu({
               </div>
             ))}
       </div>
-      <div className={styles.tagCloudContainer}>
-        <h2 className={styles.tagHeading}>Tag Cloud</h2>
-        {!isLoading &&
-          data.map((collection) =>
-            collection.item.map((item) => (
-              <div key={item.id}>
-                <p>{item.tags}</p>
-              </div>
-            ))
-          )}
-      </div>
+      <TagCloud loading={isLoading} tagsData={data} params={params} />
     </div>
   );
 }

@@ -4,6 +4,8 @@ import { useState } from "react";
 
 import { inputMap } from "../input-map/InputMap";
 
+import useSWR from "swr";
+
 export const UpdateCollectionNameForm = ({ handleUpdateCollectionName }) => {
   return (
     <form className="items-form" onSubmit={handleUpdateCollectionName}>
@@ -78,6 +80,14 @@ export const UpdateCollectionItemsForm = ({ handleSubmit }) => {
 };
 
 export const AddItemsToCollectionForm = ({ handleSubmit }) => {
+  const [query, setQuery] = useState("");
+
+  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+  const { data, mutate, error, isLoading } = useSWR(
+    `/api/tags?query=${encodeURIComponent(query)}`,
+    fetcher
+  );
+
   return (
     <form onSubmit={(e) => handleSubmit(e, "add-items")} className="items-form">
       <h1 className="title">Add items to the Collection</h1>
@@ -125,8 +135,9 @@ export const AddItemsToCollectionForm = ({ handleSubmit }) => {
         className="input-test"
         placeholder="Enter tags"
         required
+        onChange={(e) => setQuery(e.target.value)}
       />
-
+      {query && !isLoading && data.map((c) => c.item.map((i) => <p>{i.tags}</p>))}
       <button className="submit-button" type="submit">
         Submit
       </button>

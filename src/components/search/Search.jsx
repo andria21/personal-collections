@@ -18,10 +18,10 @@ export default function Search({ onSearchResults }) {
     `/api/search?query=${encodeURIComponent(query)}`,
     fetcher
   );
-
   !isLoading && query && setSearchData(data)
-
+  
   useEffect(() => {
+    
     query.length === 0 && setSearchData([])
   }, [query])
   // !isLoading && query && onSearchResults(data);

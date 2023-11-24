@@ -18,7 +18,7 @@ export const GET = async (request) => {
         item.tags.toLowerCase().includes(query.toLowerCase())
       )
     );
-
+    
     return new NextResponse(JSON.stringify(results), {
       status: 200,
     });

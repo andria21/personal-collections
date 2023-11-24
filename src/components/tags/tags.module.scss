@@ -1,23 +1,41 @@
-.tagsContainer {
+.tagCloudContainer {
+  border: 2px solid #000;
+  height: 100%;
+  border-radius: 30px;
+  padding: 20px;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
   flex-wrap: wrap;
-  gap: 8px;
-  border: 2px solid #fff;
-  padding: 5px;
+}
+
+@media (max-width: 440px) {
+  .tagHeading {
+    font-size: 20px;
+  }
 }
 
 .tag {
-  background-color: #fff;
-  color: #000;
-  padding: 0px 8px;
-  border-radius: 4px;
   cursor: pointer;
+}
 
-  &:hover {
-    background-color: #2980b9;
-  }
-  
-  &.selected {
-    background-color: #2ecc71;
-  }
+.active {
+  color: greenyellow;
+}
+
+.itemContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: #202020;
+  align-items: center;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 1px 2px 4px 4px #202020;
+  margin-bottom: 10px;
+}
+
+.selectedTitle {
+  margin-bottom: 5px;
 }
