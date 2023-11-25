@@ -18,6 +18,7 @@ import { getDictionary } from "../../../../../getDictionary";
 import AuthNotification from "@/components/auth-notification/AuthNotification";
 import { isAdmin } from "@/utils/isAdmin";
 import { useUsers } from "@/contexts/usersContext";
+import ExportToCsvButton from "@/components/export-to-csv/ExportToCsvButton";
 
 export default function CollectionPage({ params }) {
   const session = useSession();
@@ -269,7 +270,8 @@ export default function CollectionPage({ params }) {
                       Edit
                     </h3>
                   )}
-                </div>
+                  </div>
+                  <ExportToCsvButton collectionData={data} />
               </div>
               <div className="items-flex">
                 {collection.item.map((item) => (
