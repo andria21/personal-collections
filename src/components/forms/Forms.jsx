@@ -1,10 +1,12 @@
 "use Client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { inputMap } from "../input-map/InputMap";
 
 import useSWR from "swr";
+
+import { ReactTags } from "react-tag-autocomplete";
 
 export const UpdateCollectionNameForm = ({ handleUpdateCollectionName }) => {
   return (
@@ -93,7 +95,7 @@ export const AddItemsToCollectionForm = ({ handleSubmit }) => {
       <h1 className="title">Add items to the Collection</h1>
       <label className="label">ID:</label>
       <input
-        type="text"
+        type="number"
         id="id"
         name="id"
         required
@@ -137,13 +139,21 @@ export const AddItemsToCollectionForm = ({ handleSubmit }) => {
         required
         onChange={(e) => setQuery(e.target.value)}
       />
-      {query && !isLoading && data.map((c) => c.item.map((i) => <p>{i.tags}</p>))}
+      <div className="reactTagsContainer">
+        <p>{query && !isLoading && data.flat()}</p>
+      </div>
       <button className="submit-button" type="submit">
         Submit
       </button>
     </form>
   );
 };
+
+/*
+{query &&
+        !isLoading &&
+        data.map((c) => c.item.map((i) => <p>{i.tags}</p>))}
+*/
 
 export const AddTypesToItem = ({ handleSubmit }) => {
   const [show, setShow] = useState({
@@ -260,3 +270,46 @@ export const AddTypesToItem = ({ handleSubmit }) => {
     </form>
   );
 };
+
+/*
+
+  // const { data, mutate, error, isLoading } = useSWR("/api/collection", fetcher);
+
+  const [selected, setSelected] = useState([]);
+
+  const onAdd = useCallback(
+    (newTag) => {
+      setSelected([...selected, newTag]);
+    },
+    [selected]
+  );
+
+  const onDelete = useCallback(
+    (tagIndex) => {
+      setSelected(selected.filter((_, i) => i !== tagIndex));
+    },
+    [selected]
+  );
+
+  const suggestions =
+    !isLoading &&
+    data.map((collection) => {
+      const tags = collection.item.flatMap((item) => item.tags);
+      return tags.map((tag) => ({ value: tag, label: tag }));
+    });
+
+              <div className="reactTagsContainer">
+        <ReactTags
+          labelText=""
+          selected={selected}
+          suggestions={!isLoading && suggestions.flat()}
+          onAdd={onAdd}
+          onDelete={onDelete}
+          noOptionsText="No matching tags"
+          classNames={{ input: "reactTags", suggestions: "reactTagsSuggestions" }}
+          id="tags"
+          name="tags"
+          allowResize="false"
+        />
+      </div>
+ */

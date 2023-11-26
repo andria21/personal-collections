@@ -1,16 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
-
 import styles from "./main-menu.module.scss";
 
 import useSWR from "swr";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearch } from "@/contexts/searchContext";
 import TagCloud from "../tags/Tags";
-import { useTagSearch } from "@/contexts/tagsSearchContext";
 
 export default function MainMenu({
   collectionName,

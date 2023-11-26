@@ -190,7 +190,7 @@
 .cardContainer {
   width: 100%;
   max-width: 900px;
-  overflow-x: auto;
+  // overflow-x: auto;
   border-radius: 10px;
   box-shadow: 0 3px 4px rgba(83, 80, 80, 0.1);
   padding: 16px;
@@ -199,6 +199,10 @@
   &:hover {
     transform: translateY(-4px);
   }
+}
+
+.tableContainer {
+  overflow-x: auto;
 }
 
 .cardContainer:last-child{
@@ -416,6 +420,32 @@
   border-radius: 10px;
 }
 
+.reactTags {
+  max-width: 400px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #141c27;
+  // position: absolute;
+  // left: 50%;
+  // transform: translateX(-40%);
+
+  &:active {
+    border: 1px solid #ccc;
+  }
+}
+
+.reactTagsContainer {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 250px;
+  // margin-bottom: 50px;
+}
+
+.reactTagsSuggestions {
+
+}
+
 
 // MEDIAS ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -427,6 +457,27 @@
     gap: 40px;
   }
   .table {
-    word-break: break-all;
+    // word-break: break-all;
+  }
+  .cardContainer {
+    max-width: 700px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .cardContainer {
+    max-width: 500px;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .cardContainer {
+    max-width: 400px;
+  }
+}
+
+@media screen and (max-width: 437px) {
+  .cardContainer {
+    max-width: 290px;
   }
 }

@@ -256,12 +256,15 @@
     align-items: center;
     gap: 20px;
   }
-
-  .signOutButton {
-    margin-top: 20px;
-  }
+  // .signOutButton {
+  //   margin-top: 20px;
+  // }
   .navLink {
     margin: 0;
+  }
+
+  .navLink:last-child {
+    margin-top: 15px;
   }
 }
 
@@ -274,5 +277,9 @@
   }
   .navLink {
     margin: 0;
+  }
+  .signOutButton {
+    font-size: 10px;
+    padding: 6px 13px;
   }
 }

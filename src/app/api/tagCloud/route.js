@@ -12,12 +12,13 @@ export const GET = async (request) => {
   await connect;
   try {
     const collections = await prisma.collection.findMany();
-    const ress = collections.map((collection) => {
-      const tags = collection.item.flatMap((item) => item.tags);
-      return tags.filter((tag) => tag.toLowerCase().includes(query.toLocaleLowerCase()));
-    });
 
-    return new NextResponse(JSON.stringify(ress), {
+    const results = collections.filter((collection) =>
+      collection.item.some((item) =>
+        item.tags.toLowerCase().includes(query.toLowerCase())
+      )
+    );
+    return new NextResponse(JSON.stringify(results), {
       status: 200,
     });
   } catch (error) {

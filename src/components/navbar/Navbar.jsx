@@ -58,7 +58,7 @@ export default function Navbar({ params }) {
         </Link>
         <div className={`${styles.linksContainer}`}>
           <DarkModeToggle />
-          <label className={styles.navLink} htmlFor="gsearch">
+          <label className={`${styles.navLink} ${styles.searchLabel}`} htmlFor="gsearch">
             {text.search}:
           </label>
           <Search />
@@ -109,14 +109,14 @@ export default function Navbar({ params }) {
               </Link>
             )}
           <Link
-            className={styles.navLink}
+
             href={`/${language === "en" ? "" : "en"}/`}
             onClick={() => handleLanguageChange("en")}
           >
             🏴󠁧󠁢󠁥󠁮󠁧🇺🇸
           </Link>
           <Link
-            className={styles.navLink}
+
             href={`/${language === "ru" ? "" : "ru"}/`}
             onClick={() => handleLanguageChange("ru")}
           >

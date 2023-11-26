@@ -13,7 +13,7 @@ export default function TagCloud({ loading, tagsData, params }) {
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
   const { data, mutate, error, isLoading } = useSWR(
-    `/api/tags?query=${encodeURIComponent(query)}`,
+    `/api/tagCloud?query=${encodeURIComponent(query)}`,
     fetcher
   );
 
