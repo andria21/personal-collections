@@ -44,7 +44,6 @@ export const POST = async (request, { params }) => {
     } else if (buttonName === "update-items") {
       const updateData = {};
     
-      // Add fields to updateData only if they are non-empty
       if (name !== undefined && name !== null && name !== "") {
         updateData.name = name;
       }
@@ -60,6 +59,8 @@ export const POST = async (request, { params }) => {
       if (tags !== undefined && tags !== null && tags.length > 0) {
         updateData.tags = tags;
       }
+
+      console.log(topic, tags);
     
       try {
         await prisma.collection.update({
@@ -79,11 +80,10 @@ export const POST = async (request, { params }) => {
     } else if (buttonName === "add-types") {
       for (const key in formData) {
         if (formData.hasOwnProperty(key)) {
-          // console.log(`${key}: ${formData[key]}`);
           const value = formData[key];
-          // const displayValue = typeof value === 'string' && /^\d+$/.test(value) ? parseInt(value, 10) : value;
-          if (value !== null && value !== undefined && value !== "") {
-            console.log(value);
+          if (key !== null && key !== undefined && key !== "" && value !== null && value !== undefined && value !== "") {
+            // kkey && value (i know its better but just in case...)
+            // console.log(key,value);
             try {
               await prisma.collection.update({
                 where: { id: collectionId },

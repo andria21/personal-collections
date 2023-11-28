@@ -1,13 +1,13 @@
-export const handleSubmit = async (e, buttonName) => {
+export const handleSubmitForm = async (e, buttonName, collectionId, session, mutate) => {
   e.preventDefault();
 
   const id = e.target[0].value;
   const name = e.target[1].value;
-  const image = e.target[2].value;
-  const desc = e.target[3].value;
-  const topic = e.target[4].value;
-  const tags = e.target[5].value;
-  const comment = e.target[6].value;
+  // const image = e.target[2].value;
+  const desc = e.target[2].value;
+  const topic = e.target[3].value;
+  const tags = e.target[4].value;
+  // const comment = e.target[6].value;
 
   try {
     await fetch(`/api/collection/${collectionId}/item`, {
@@ -18,12 +18,12 @@ export const handleSubmit = async (e, buttonName) => {
       body: JSON.stringify({
         name,
         id,
-        image,
+        // image,
         desc,
         topic,
         tags,
+        // comment
         buttonName,
-        comment,
         commentUser: session.data.user.name,
       }),
     });
@@ -39,7 +39,7 @@ export const handleSubmit = async (e, buttonName) => {
   }
 };
 
-export const handleSubmitTypes = async (e, buttonName, inputMap) => {
+export const handleSubmitTypesForm = async (e, buttonName, inputMap, collectionId, mutate) => {
   e.preventDefault();
 
   console.log(e.target[0].value, buttonName);
@@ -82,7 +82,7 @@ export const handleSubmitTypes = async (e, buttonName, inputMap) => {
   }
 };
 
-export const handleUpdateCollectionName = async (e) => {
+export const handleUpdateCollectionNameForm = async (e, collectionId, mutate) => {
   e.preventDefault();
   const name = e.target[0].value;
   try {
@@ -102,7 +102,7 @@ export const handleUpdateCollectionName = async (e) => {
   }
 };
 
-export const handleSubmitComment = async (e, buttonName) => {
+export const handleSubmitCommentForm = async (e, buttonName, collectionId, mutate, session, itemId) => {
   e.preventDefault();
 
   const comment = e.target[0].value;
@@ -132,7 +132,7 @@ export const handleSubmitComment = async (e, buttonName) => {
   }
 };
 
-export const handleLike = async (buttonName, itemID, like) => {
+export const handleLikeForm = async (buttonName, itemID, like, collectionId, session, mutate) => {
   try {
     await fetch(`/api/collection/${collectionId}/item`, {
       method: "POST",
@@ -152,7 +152,7 @@ export const handleLike = async (buttonName, itemID, like) => {
   }
 };
 
-export const handleDeleteItem = async (itemId) => {
+export const handleDeleteItemForm = async (itemId, collectionId, mutate) => {
   try {
     await fetch(`/api/collection/${collectionId}/item`, {
       method: "DELETE",
