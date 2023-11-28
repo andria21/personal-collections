@@ -45,14 +45,14 @@ export default function MainMenu({
   return (
     <div className={styles.container}>
       <div className={styles.latestCollectionsContainer}>
-        <h2 className={styles.largestHeading}>5 Largest Collections</h2>
+        <h2 className={styles.largestHeading}>{text.largestCollections}</h2>
         {!isLoading &&
           sortedCollectionsBySize.map((largestCollections) => (
             <div key={largestCollections.id}>{largestCollections.name}</div>
           ))}
       </div>
       <div className={styles.collectionContainer}>
-        <h1 className={styles.latestItemsHeading}>Latest Items</h1>
+        <h1 className={styles.latestItemsHeading}>{text.latestItems}</h1>
         {searchData?.length
           ? searchData?.map((col) =>
               col.item.map((item) => (
@@ -99,8 +99,12 @@ export default function MainMenu({
             )
           : Array.from(usersCollectionsMap).map(([username, items]) => (
               <div key={username} className={styles.userCollectionContainer}>
-                <h2 className={styles.author}>Author: {username}</h2>
-                <h3 className={styles.collectionHead}>Collections & Items</h3>
+                <h2 className={styles.author}>
+                  {text.author}: {username}
+                </h2>
+                <h3 className={styles.collectionHead}>
+                  {text.collectionsAndItems}
+                </h3>
                 <div className={styles.collectionsItemsContainer}>
                   <div className={styles.colContainer}>
                     {items.map(({ name, id }, index) => (
@@ -127,7 +131,12 @@ export default function MainMenu({
               </div>
             ))}
       </div>
-      <TagCloud loading={isLoading} tagsData={data} params={params} />
+      <TagCloud
+        loading={isLoading}
+        tagsData={data}
+        params={params}
+        name={text.tagCloud}
+      />
     </div>
   );
 }

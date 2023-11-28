@@ -40,7 +40,12 @@
       "comment": "Comment",
       "addComment": "Add a comment",
       "post": "Post",
-      "item": "Item"
+      "item": "Item",
+      "largestCollections": "5 Largest Collections",
+      "latestItems": "Latest Items",
+      "tagCloud": "Tag Cloud",
+      "author": "Author",
+      "collectionsAndItems": "Collections & Items"
     }
   }
 }

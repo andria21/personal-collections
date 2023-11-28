@@ -6,7 +6,7 @@ import styles from "./tags.module.scss";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-export default function TagCloud({ loading, tagsData, params }) {
+export default function TagCloud({ loading, tagsData, params, name }) {
   const [query, setQuery] = useState("");
   // const { tagsSearchData, setTagsSearchData } = useTagSearch();
 
@@ -25,7 +25,7 @@ export default function TagCloud({ loading, tagsData, params }) {
 
   return (
     <div className={styles.tagCloudContainer}>
-      <h2 className={styles.tagHeading}>Tag Cloud</h2>
+      <h2 className={styles.tagHeading}>{name}</h2>
       {!loading &&
         tagsData.map((collection) =>
           collection.item.map((item) => (

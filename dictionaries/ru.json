@@ -40,7 +40,12 @@
       "comment": "Комментировать",
       "addComment": "Добавить комментарий",
       "post": "Публиковать",
-      "item": "Вещь"
+      "item": "Вещь",
+      "largestCollections": "5 крупнейших коллекций",
+      "latestItems": "Последние предметы",
+      "tagCloud": "хранилище тегов",
+      "author": "Автор",
+      "collectionsAndItems": "Коллекции & предметы"
     }
   }
 }
