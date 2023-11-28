@@ -12,6 +12,7 @@ export function GithubSignInButton() {
 
   return (
     <button
+      type="button"
       onClick={handleClick}
       className={`${styles.githubButton}`}>
       <Image src={githubLogo} alt="Google Logo" width={20} height={20} />
