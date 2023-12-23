@@ -1,13 +1,24 @@
 .searchInput {
-  border-radius: 15px;
-  padding: 10px;
-  color: #242526;
-  background-color: #434242;
-  border: none;
-
-  &:active {
-    border: 2px solid #fff;
-  }
+  border-radius: 30px;
+  padding: 14px;
+  color: #fff;
+  background-color: #212124;
+  border: 1.5px solid transparent;
+  background-image: url('../../../public/search.svg');
+  background-size: 25px;
+  background-position: 10px center;
+  background-repeat: no-repeat;
+  padding-left: 40px;
+  margin-bottom: 16px;
+  margin-top: 1px;
+  width: 100%;
+  font-size: 14px;
+  outline: none;
+}
+.searchInput:active,
+.searchInput:focus {
+  border-color: #3081D0; 
+  background-color: #000;
 }
 
 @media screen and (max-width: 460px) {
@@ -19,5 +30,11 @@
 @media screen and (max-width: 360px) {
   .searchInput {
     font-size: 4px;
+  }
+}
+
+@media (max-width: 1360px) {
+  .searchInput {
+    width: 300px;
   }
 }

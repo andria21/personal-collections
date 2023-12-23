@@ -1,12 +1,12 @@
 {
   "navigation": {
-    "home": "HOME",
-    "search": "SEARCH",
-    "dashboard": "DASHBOARD",
-    "adminPanel": "ADMIN PANEL",
-    "signOut": "SIGN OUT",
-    "register": "REGISTER",
-    "login": "LOGIN"
+    "home": "Home",
+    "search": "Search",
+    "dashboard": "Dashboard",
+    "adminPanel": "Admin Panel",
+    "signOut": "Sign Out",
+    "register": "Sign Up",
+    "login": "Sign In"
   },
   "page": {
     "home": {

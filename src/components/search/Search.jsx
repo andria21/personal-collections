@@ -8,6 +8,8 @@ import useSWR from "swr";
 
 import styles from "./search.module.scss";
 
+import SearchSvg from "../../../public/search.svg";
+
 export default function Search({ onSearchResults }) {
   const [query, setQuery] = useState("");
   const { searchData, setSearchData } = useSearch();

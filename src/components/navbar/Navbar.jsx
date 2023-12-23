@@ -12,7 +12,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Search from "../search/Search";
 import { useUsers } from "@/contexts/usersContext";
-import Tags from "../tags/Tags";
 
 export default function Navbar({ params }) {
   const session = useSession();
@@ -32,7 +31,6 @@ export default function Navbar({ params }) {
 
     if (savedLanguage) {
       setLanguage(savedLanguage);
-      // router.push(`/${savedLanguage}`);
     } else {
       setLanguage("en");
       localStorage.setItem("language", "en");
@@ -49,88 +47,27 @@ export default function Navbar({ params }) {
 
   return (
     <div className={styles.container}>
-      <div onClick={() => setActive(!active)}>
-        <div className={active ? styles.activeHamburger : styles.hamburger} />
-      </div>
-      <div className={`${active ? styles.activeSidenav : styles.sidenav}`}>
-        <Link className={styles.logo} href={`/${params.lang}/`}>
-          CollectionApp
+      <div className={`${styles.linksContainer}`}>
+        <DarkModeToggle />
+        <label
+          className={`${styles.navLink} ${styles.searchLabel}`}
+          htmlFor="gsearch"
+        >
+          {text.search}:
+        </label>
+        <Search />
+        <Link
+          href={`/${language === "en" ? "" : "en"}/`}
+          onClick={() => handleLanguageChange("en")}
+        >
+          🏴󠁧󠁢󠁥󠁮󠁧🇺🇸
         </Link>
-        <div className={`${styles.linksContainer}`}>
-          <DarkModeToggle />
-          <label className={`${styles.navLink} ${styles.searchLabel}`} htmlFor="gsearch">
-            {text.search}:
-          </label>
-          <Search />
-          <Link
-            className={styles.navLink}
-            href={`/${params.lang}/`}
-            onClick={() => setActive(false)}
-          >
-            {text.home}
-          </Link>
-          {session.status === "authenticated" && (
-            <Link
-              className={styles.navLink}
-              href={`/${params.lang}/dashboard`}
-              onClick={() => setActive(false)}
-            >
-              {text.dashboard}
-            </Link>
-          )}
-          {session.status === "unauthenticated" && (
-            <Link
-              className={styles.navLink}
-              href={`/${params.lang}/login`}
-              onClick={() => setActive(false)}
-            >
-              {text.login}
-            </Link>
-          )}
-
-          {session.status === "unauthenticated" && (
-            <Link
-              className={styles.navLink}
-              href={`/${params.lang}/register`}
-              onClick={() => setActive(false)}
-            >
-              {text.register}
-            </Link>
-          )}
-
-          {session.status === "authenticated" &&
-            isAdmin(isLoading, users, session) && (
-              <Link
-                className={styles.navLink}
-                href={`/${params.lang}/admin-panel`}
-                onClick={() => setActive(false)}
-              >
-                {text.adminPanel}
-              </Link>
-            )}
-          <Link
-
-            href={`/${language === "en" ? "" : "en"}/`}
-            onClick={() => handleLanguageChange("en")}
-          >
-            🏴󠁧󠁢󠁥󠁮󠁧🇺🇸
-          </Link>
-          <Link
-
-            href={`/${language === "ru" ? "" : "ru"}/`}
-            onClick={() => handleLanguageChange("ru")}
-          >
-            🏴🇷🇺
-          </Link>
-        </div>
-        {session.status === "authenticated" && (
-          <button
-            className={`${styles.navLink} ${styles.signOutButton}`}
-            onClick={signOut}
-          >
-            {text.signOut}
-          </button>
-        )}
+        <Link
+          href={`/${language === "ru" ? "" : "ru"}/`}
+          onClick={() => handleLanguageChange("ru")}
+        >
+          🏴🇷🇺
+        </Link>
       </div>
     </div>
   );

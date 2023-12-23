@@ -7,6 +7,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSearch } from "@/contexts/searchContext";
 import TagCloud from "../tags/Tags";
+import NewNavbar from "../new-navbar/NewNavbar";
+import Search from "../search/Search";
 
 export default function MainMenu({
   collectionName,
@@ -41,18 +43,11 @@ export default function MainMenu({
       }
     });
   }
-
+  // <NewNavbar />
   return (
     <div className={styles.container}>
-      <div className={styles.latestCollectionsContainer}>
-        <h2 className={styles.largestHeading}>{text.largestCollections}</h2>
-        {!isLoading &&
-          sortedCollectionsBySize.map((largestCollections) => (
-            <div key={largestCollections.id}>{largestCollections.name}</div>
-          ))}
-      </div>
       <div className={styles.collectionContainer}>
-        <h1 className={styles.latestItemsHeading}>{text.latestItems}</h1>
+        
         {searchData?.length
           ? searchData?.map((col) =>
               col.item.map((item) => (
@@ -99,12 +94,7 @@ export default function MainMenu({
             )
           : Array.from(usersCollectionsMap).map(([username, items]) => (
               <div key={username} className={styles.userCollectionContainer}>
-                <h2 className={styles.author}>
-                  {text.author}: {username}
-                </h2>
-                <h3 className={styles.collectionHead}>
-                  {text.collectionsAndItems}
-                </h3>
+                <h2 className={styles.author}>{username}</h2>
                 <div className={styles.collectionsItemsContainer}>
                   <div className={styles.colContainer}>
                     {items.map(({ name, id }, index) => (
@@ -117,7 +107,8 @@ export default function MainMenu({
                         </Link>
                       </div>
                     ))}
-                  </div>
+                </div>
+                  <p>-</p>
                   <div className={styles.itemContainer}>
                     {items.map((item) =>
                       item.item.map((i) => (
@@ -131,12 +122,24 @@ export default function MainMenu({
               </div>
             ))}
       </div>
-      <TagCloud
-        loading={isLoading}
-        tagsData={data}
-        params={params}
-        name={text.tagCloud}
-      />
+      <div className={styles.clouds}>
+        <Search />
+        <div className={styles.latestCollectionsContainer}>
+          <h2 className={styles.largestHeading}>{text.largestCollections}</h2>
+          {!isLoading &&
+            sortedCollectionsBySize.map((largestCollections) => (
+              <div key={largestCollections.id} className={styles.largestCollP}>
+                {largestCollections.name}
+              </div>
+            ))}
+        </div>
+        <TagCloud
+          loading={isLoading}
+          tagsData={data}
+          params={params}
+          name={text.tagCloud}
+        />
+      </div>
     </div>
   );
 }

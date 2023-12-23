@@ -33,7 +33,6 @@
 }
 
 .dashboardContainer {
-  margin-top: 50px;
   display: flex;
   justify-content: space-evenly;
   width: 100%;
@@ -43,11 +42,10 @@
   padding: 30px;
   width: 500px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  height: 100%;
-  background: #2C3333;
+  height:fit-content;
+  background: #13192c;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgb(0, 0, 0);
 }
 
 .formGroup {
@@ -57,6 +55,7 @@
 .label {
   display: block;
   font-weight: bold;
+  color: #ccc;
 }
 
 .input {
@@ -76,12 +75,14 @@
   font-size: 1em;
   letter-spacing: 0.1em;
   text-decoration: none;
-  color: #ffffff;
+  color: #fff;
   background-color: #242526;
   display: inline-block;
   padding: 10px 40px;
   position: relative;
-  border: 2px solid #ffffff;
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+ 
 
   cursor: pointer;
   &:hover {
@@ -109,7 +110,7 @@
 
 .collectionName {
   cursor: pointer;
-  background-color: #2C3333;
+  background-color: #13192c;
   border-radius: 10px;
   padding: 8px;
   margin-bottom: 16px;
@@ -118,7 +119,7 @@
 }
 
 .span {
-  background-color: #2C3333;
+  background-color: #13192c;
   border-radius: 10px;
   padding: 8px;
   margin-bottom: 16px;
@@ -134,7 +135,7 @@
   .dashboardContainer {
     flex-direction: column;
     align-items: center;
-
+    margin-bottom: 100px;
   }
   .form {
     width: 100%;

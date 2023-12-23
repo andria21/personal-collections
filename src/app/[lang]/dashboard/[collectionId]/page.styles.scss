@@ -1,8 +1,8 @@
 .items-container {
-  margin-top: 50px;
+  margin-top: 1px;
   display: flex;
   justify-content: space-between;
-  flex-direction: column-reverse;
+  // flex-direction: column-reverse;
   gap: 20px;
   width: 100%;
   //- 170px
@@ -448,6 +448,15 @@
 
 
 // MEDIAS ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+@media screen and (max-width: 1200px) {
+  .cardContainer {
+    max-width: 700px;
+  }
+  .items-container {
+    align-items: center;
+    justify-content: center;
+  }
+}
 
 @media screen and (max-width: 1000px) {
   .modalContent {
@@ -456,21 +465,12 @@
     justify-content: space-between;
     gap: 40px;
   }
-  .table {
-    // word-break: break-all;
-  }
-  .cardContainer {
-    max-width: 700px;
-  }
-}
-
-@media screen and (max-width: 1000px) {
   .cardContainer {
     max-width: 500px;
   }
 }
 
-@media screen and (max-width: 560px) {
+@media screen and (max-width: 580px) {
   .cardContainer {
     max-width: 400px;
   }

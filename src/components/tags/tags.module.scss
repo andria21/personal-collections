@@ -1,7 +1,7 @@
 .tagCloudContainer {
-  border: 2px solid #000;
-  height: 100%;
-  border-radius: 30px;
+  // border: 2px solid #fff;
+  // height: 100%;
+  border-radius: 16px;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -10,6 +10,7 @@
   gap: 5px;
   flex-wrap: wrap;
   text-align: center;
+  background-color: #212124;
 }
 
 @media (max-width: 440px) {
@@ -39,4 +40,11 @@
 
 .selectedTitle {
   margin-bottom: 5px;
+}
+
+@media (max-width: 1360px) {
+.tagCloudContainer {
+  width: 300px;
+}
+
 }

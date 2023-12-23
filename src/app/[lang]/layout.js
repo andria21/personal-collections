@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/contexts/themeContext";
 import { SearchProvider } from "@/contexts/searchContext";
 import { UsersProvider } from "@/contexts/usersContext";
 import { TagsProvider } from "@/contexts/tagsSearchContext";
+import NewNavbar from "@/components/new-navbar/NewNavbar";
 
 const inter = Inter({ subsets: ["latin"] });
 const openSans = Open_Sans({ subsets: ["latin"], weight: "500" });
@@ -31,7 +32,7 @@ export default function RootLayout({ children, params }) {
               <SearchProvider>
                 <TagsProvider>
                   <div className={styles.container}>
-                    <Navbar params={params} />
+                    <NewNavbar params={params} />
                     {children}
                   </div>
                 </TagsProvider>
